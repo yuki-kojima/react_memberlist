@@ -1,0 +1,12 @@
+a {
+    text-decoration: none;
+    color: #000;
+    &:hover, :visited {
+        color: #000;
+    }
+}
+
+input[type="text"] {
+    border: solid 1px #ccc;
+    border-radius: 3px;
+}
