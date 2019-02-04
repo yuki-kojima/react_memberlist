@@ -4,8 +4,8 @@ import axios from 'axios';
 import './App.css';
 import Top from "./components/Top";
 import Search from "./components/Search";
-import Game from "./components/Game";
-import Memberlist from './components/Memberlist';
+import MemberInfo from "./components/MemberInfo";
+
 
 class App extends Component {
   constructor(props) {
@@ -65,6 +65,7 @@ class App extends Component {
           <div>
             <Route exact path="/" component={Top} />
             <Route path="/search" component={Search} />
+            <Route path='/user/:id' component={MemberInfo} />
             {/* <Route path="/memberlist" component={Memberlist} /> */}
             {/* <Route path="/" component={Memberlist} /> */}
             {/* <Route

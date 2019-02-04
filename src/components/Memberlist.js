@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import '../App.css';
 
 class Memberlist extends Component {
@@ -29,7 +30,13 @@ class Memberlist extends Component {
             <div>
                 <ul>
                     {userInfo.map((row, index) => {
-                        return <li key={row.user_id}>{row.user_name}</li>;
+                        return (
+                          <li key={row.user_id}>
+                            <Link to={"/user/" + row.user_id}>
+                                {row.user_name}
+                            </Link>
+                          </li>
+                        );
                     })}
                 </ul>
                     {flgBackward && <div onClick={e => this.props.loadUserInfo(e)} data-page={parseInt(currentPage, 10) - 1} data-id={this.props.departmentID} data-query={this.props.query}> 前へ</div>
