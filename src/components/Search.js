@@ -86,6 +86,12 @@ class Search extends Component {
       inputText: value
     });
   }
+  onClickSearh(e) {
+    if (e.target.getAttribute("data-query").trim().length === 0) {
+        return;
+    }
+    this.loadUserInfo(e);
+  }
   render() {
     return (
       <div>
@@ -113,7 +119,7 @@ class Search extends Component {
           <div>
             <input type="text" onChange={e => this.changeInputText(e)} />
             <button
-              onClick={e => this.loadUserInfo(e)}
+              onClick={e => this.onClickSearh(e)}
               data-query={this.state.inputText}
               type="button"
             >
