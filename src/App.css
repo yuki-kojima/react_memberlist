@@ -1,9 +1,52 @@
+html {
+  font-size: 10px; }
+
+body {
+  font-size: 1.6rem; }
+
 a {
   text-decoration: none;
   color: #000; }
   a:hover, a :visited {
     color: #000; }
 
+li {
+  list-style: none; }
+
+img {
+  max-width: 100%;
+  max-height: 100%; }
+
 input[type="text"] {
   border: solid 1px #ccc;
   border-radius: 3px; }
+
+.l-memberlist {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap; }
+  .l-memberlist > li {
+    width: 200px;
+    margin: 0 1rem 5rem; }
+
+.memberlist .memberlist__img {
+  width: 200px;
+  height: 200px;
+  text-align: center; }
+
+.memberlist .memberlist__name {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold; }
+
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .pager .pager__page {
+    margin: 0 15px; }
+
+.btn-pager {
+  visibility: visible; }
+  .btn-pager.is-hidden {
+    visibility: hidden; }

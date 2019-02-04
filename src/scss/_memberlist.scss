@@ -1,0 +1,35 @@
+// Memberlistのスタイル
+.l-memberlist {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    > li {
+        width: 200px;
+        margin: 0 1rem 5rem;
+    }
+}
+.memberlist {
+    .memberlist__img {
+        width: 200px;
+        height: 200px;
+        text-align: center;
+    }.memberlist__name {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+}
+.pager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .pager__page {
+        margin: 0 15px;
+    }
+}
+.btn-pager {
+    visibility: visible;
+    &.is-hidden {
+        visibility: hidden;
+    }
+}
