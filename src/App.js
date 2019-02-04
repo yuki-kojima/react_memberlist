@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from 'axios';
 import './App.css';
+import Top from "./components/Top";
+import Search from "./components/Search";
+import Game from "./components/Game";
+import Memberlist from './components/Memberlist';
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      isLogin: false,
-      departmentList: [],
-      user: null,
+      isLogin: false
     };
   }
   componentDidMount() {
     this.httpClient = axios.create({
-      baseURL: 'https://kadou.i.nijibox.net/api',
-      withCredentials: true,
+      baseURL: "https://kadou.i.nijibox.net/api",
+      withCredentials: true
     });
 
     this.loadAuth()
@@ -22,16 +25,16 @@ class App extends Component {
         if (!this.state.isLogin) {
           return Promise.resolve();
         }
-        return this.loadDepartments();
       })
-      .catch((err) => {
+      .catch(err => {
         alert("APIがエラーを返しました\n\n" + err);
       });
   }
   loadAuth() {
-    return this.httpClient.get('/auth', { params: { callback: 'http://localhost:3000' } })
+    return this.httpClient
+      .get("/auth", { params: { callback: "http://localhost:3000" } })
       .then(this.commonResponseHandling)
-      .then((result: any) => {
+      .then(result => {
         if (result.is_login) {
           this.setState({ isLogin: true });
         } else if (result.auth_url) {
@@ -39,23 +42,8 @@ class App extends Component {
         }
       });
   }
-  loadDepartments() {
-    return this.httpClient.get('/who/departments')
-      .then(this.commonResponseHandling)
-      .then((result: any) => {
-        this.setState({ departmentList: result });
-      })
-  }
-  loadUser() {
-    return this.httpClient
-      .get('/who/search/', { params: { query: 'さいとう' } })
-      .then(this.commonResponseHandling)
-      .then((result: any) => {
-        this.setState({ user: result });
-      });
-  }
 
-  commonResponseHandling(res: AxiosResponse) {
+  commonResponseHandling(res) {
     console.debug(res);
     if (res.data.code !== "200") {
       console.error(res.data.data);
@@ -65,33 +53,35 @@ class App extends Component {
   }
 
   clickHandler = () => {
-    this.loadUser()
-      .catch((err) => {
-        alert('エラー発生');
-      });
+    this.loadUser().catch(err => {
+      alert("エラー発生");
+    });
   };
 
   render() {
-    return <div>
-      <ul>
-        {this.state.departmentList.map((row, index) => {
-          return <li key={index}>{row.department_name}</li>;
-        })}
-      </ul>
-
-      {this.state.isLogin ? <div>
-        <button onClick={this.clickHandler}>
-          ユーザも取得してみる
-                </button>
-
-        {this.state.user && <div>
-          {this.state.user.item_list[0].user_name}
-          <br />
-          {this.state.user.item_list[0].nickname}
-          <img src={this.state.user.item_list[0].photo_url} />
-        </div>}
-      </div> : <p>未ログイン</p>}
-    </div>;
+    return (
+      <div>
+        <Router>
+          <div>
+            <Route exact path="/" component={Top} />
+            <Route path="/search" component={Search} />
+            {/* <Route path="/memberlist" component={Memberlist} /> */}
+            {/* <Route path="/" component={Memberlist} /> */}
+            {/* <Route
+              path="/search"
+              render={() => (
+                <Search departmentList={this.state.departmentList} loadUserbyDepartment={e => this.loadUserbyDepartment(e)}/>
+              )}
+            />
+            <Route path="/game" component={Game} />
+            <Route path="/memberlist" render={() => (
+              <Memberlist departmentList={this.state.departmentList} userlist={this.state.userlist}/>
+              )}
+            /> */}
+          </div>
+        </Router>
+      </div>
+    );
   }
 }
 
