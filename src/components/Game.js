@@ -79,7 +79,9 @@ class Game extends Component {
         });
       });
   }
-
+  PickRandomNum(totalNum) {
+    const total = parseInt(totalNum, 10);
+  }
   render() {
     return (
       <div>
