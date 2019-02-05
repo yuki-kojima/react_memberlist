@@ -84,7 +84,6 @@ class Game extends Component {
     return (
       <div>
         <h1>神経衰弱</h1>
-        <div>
           <div>
             <h2>部署を選ぶ</h2>
             <div>
@@ -103,7 +102,6 @@ class Game extends Component {
                   );
                 })}
               </ul>
-            </div>
           </div>
         </div>
         <div>
