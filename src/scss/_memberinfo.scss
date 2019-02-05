@@ -1,0 +1,34 @@
+.memberinfo {
+    display: flex;
+    justify-content: center;
+    .memberinfo__img {
+        flex-shrink: 0;
+        width: 300px;
+    }
+    .memberinfo__info {
+        margin-left: 2rem;
+        .memberinfo__info__body {
+            margin-top: 3rem;
+        }
+    }
+}
+.memberinfo-title {
+    text-align: center;
+    .memberinfo-title__name {
+        display: block;
+        font-size: 2rem;
+    }
+    .memberinfo-title__sub {
+        display: block;
+        font-size: 1.4rem;
+        font-weight: normal;
+    }
+}
+
+.infotable {
+    border-collapse: separate;
+    border-spacing: 1rem;
+    .infotable__header {
+        text-align: right;
+    }
+}
