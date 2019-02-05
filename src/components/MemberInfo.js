@@ -7,7 +7,8 @@ class Memberlist extends Component {
     constructor(props){
         super(props);
         this.state = {
-            userInfo: null
+          isLogin: false,
+          userInfo: null
         }
     }
   componentDidMount() {
