@@ -53,12 +53,6 @@ class App extends Component {
     return Promise.resolve(res.data.data);
   }
 
-  clickHandler = () => {
-    this.loadUser().catch(err => {
-      alert("エラー発生");
-    });
-  };
-
   render() {
     return (
       <div className="wrap">
