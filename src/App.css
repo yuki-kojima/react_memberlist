@@ -1,3 +1,7 @@
+.wrap {
+  width: 980px;
+  margin: 0 auto; }
+
 html {
   font-size: 10px; }
 
@@ -20,6 +24,10 @@ img {
 input[type="text"] {
   border: solid 1px #ccc;
   border-radius: 3px; }
+
+.pagenav {
+  display: flex;
+  justify-content: space-between; }
 
 .l-memberlist {
   display: flex;
@@ -50,3 +58,30 @@ input[type="text"] {
   visibility: visible; }
   .btn-pager.is-hidden {
     visibility: hidden; }
+
+.memberinfo {
+  display: flex;
+  justify-content: center; }
+  .memberinfo .memberinfo__img {
+    flex-shrink: 0;
+    width: 300px; }
+  .memberinfo .memberinfo__info {
+    margin-left: 2rem; }
+    .memberinfo .memberinfo__info .memberinfo__info__body {
+      margin-top: 3rem; }
+
+.memberinfo-title {
+  text-align: center; }
+  .memberinfo-title .memberinfo-title__name {
+    display: block;
+    font-size: 2rem; }
+  .memberinfo-title .memberinfo-title__sub {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: normal; }
+
+.infotable {
+  border-collapse: separate;
+  border-spacing: 1rem; }
+  .infotable .infotable__header {
+    text-align: right; }

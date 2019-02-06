@@ -7,7 +7,8 @@ class Memberlist extends Component {
     constructor(props){
         super(props);
         this.state = {
-            userInfo: null
+          isLogin: false,
+          userInfo: null
         }
     }
   componentDidMount() {
@@ -50,7 +51,6 @@ class Memberlist extends Component {
 
   loadUserDetail() {
     const { params } = this.props.match;
-    console.log(params.id);
     const user_id = parseInt(params.id, 10);
     return this.httpClient
       .get("/who/user/"+ user_id)
@@ -66,13 +66,49 @@ class Memberlist extends Component {
       <div>
         {this.state.userInfo ? <div>
             <h2>詳細</h2>
-            <div>
-                <div>{this.state.userInfo.user_name}</div>
+            <div className="memberinfo">
+                <div className="memberinfo__img"><img src={this.state.userInfo.main_photo_url} alt={this.state.userInfo.user_name + "の写真"}/></div>
+                <div className="memberinfo__info">
+                  <div className="memberinfo__info__header">
+                    <h3 className="memberinfo-title">
+                      <span className="memberinfo-title__name">{this.state.userInfo.user_name}</span>
+                      <span className="memberinfo-title__sub">{this.state.userInfo.user_kana}</span>
+                    </h3>
+                  </div>
+                  <div className="memberinfo__info__body">
+                    <table className="infotable">
+                      <tbody>
+                        <tr>
+                          <td className="infotable__header">ニックネーム：</td>
+                          <td className="infotable__body">{this.state.userInfo.nickname}</td>
+                        </tr>
+                        <tr>
+                          <td className="infotable__header">部署：</td>
+                          <td className="infotable__body">{this.state.userInfo.department_name}</td>
+                        </tr>
+                        <tr>
+                          <td className="infotable__header">入社日：</td>
+                          <td className="infotable__body">{this.state.userInfo.enter_date}</td>
+                        </tr>
+                        <tr>
+                          <td className="infotable__header">slack名：</td>
+                          <td className="infotable__body">{this.state.userInfo.slack_desplay_name}</td>
+                        </tr>
+                        <tr>
+                          <td className="infotable__header">メールアドレス：</td>
+                          <td className="infotable__body">{this.state.userInfo.mail}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
             </div>
         </div> : <p>該当メンバーがいません</p>
         }
-            <Link to="/search">検索へ戻る</Link>
-            <Link to="/">トップへ戻る</Link>
+        <div className="pagenav">
+        <Link to="/search">検索へ戻る</Link>
+        <Link to="/">トップへ戻る</Link>
+        </div>
       </div>
     );
   }

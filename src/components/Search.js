@@ -97,34 +97,38 @@ class Search extends Component {
       <div>
         <h1>社員検索</h1>
         <div>
-          <h2>部署から検索する</h2>
           <div>
-            <ul>
-              {this.state.departmentList.map((row, index) => {
-                return (
-                  <li key={index}>
-                    <button
-                      onClick={e => this.loadUserInfo(e)}
-                      data-id={row.department_id}
-                      type="button"
-                    >
-                      {row.department_name}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+            <h2>部署から検索する</h2>
+            <div>
+              <ul>
+                {this.state.departmentList.map((row, index) => {
+                  return (
+                    <li key={index}>
+                      <button
+                        onClick={e => this.loadUserInfo(e)}
+                        data-id={row.department_id}
+                        type="button"
+                      >
+                        {row.department_name}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
-          <h2>フリーワードで検索する</h2>
           <div>
-            <input type="text" onChange={e => this.changeInputText(e)} />
-            <button
-              onClick={e => this.onClickSearh(e)}
-              data-query={this.state.inputText}
-              type="button"
-            >
-              検索する
-            </button>
+            <h2>フリーワードで検索する</h2>
+            <div>
+              <input type="text" onChange={e => this.changeInputText(e)} />
+              <button
+                onClick={e => this.onClickSearh(e)}
+                data-query={this.state.inputText}
+                type="button"
+              >
+                検索する
+              </button>
+            </div>
           </div>
         </div>
         <div>

@@ -6,6 +6,7 @@ import './App.css';
 import Top from "./components/Top";
 import Search from "./components/Search";
 import MemberInfo from "./components/MemberInfo";
+import Game from "./components/Game";
 
 
 class App extends Component {
@@ -53,20 +54,15 @@ class App extends Component {
     return Promise.resolve(res.data.data);
   }
 
-  clickHandler = () => {
-    this.loadUser().catch(err => {
-      alert("エラー発生");
-    });
-  };
-
   render() {
     return (
-      <div>
+      <div className="wrap">
         <Router>
           <div>
             <Route exact path="/" component={Top} />
             <Route path="/search" component={Search} />
             <Route path='/user/:id' component={MemberInfo} />
+            <Route path='/game' component={Game} />
             {/* <Route path="/memberlist" component={Memberlist} /> */}
             {/* <Route path="/" component={Memberlist} /> */}
             {/* <Route
