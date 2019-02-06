@@ -13,6 +13,15 @@ class Game extends Component {
       userList: null,
       summary: null,
       departmentName: '',
+      total: 20,  //カードの枚数
+      speed: 150,  //カードをめくる速度
+      returnSec: 1000,  //めくったカードが元に戻る秒数
+      cardList: [],  //各カードの情報を入れる配列({id:user_id, photo: photo_url})
+      index: null,  //クリックしたカードの並び順
+      first: true,  //クリックしたカードが1枚目かどうかの判定用
+      card1: null,  //1枚目に引いたカードの番号
+      card2: null,  //2枚目に引いたカードの番号
+      pair: 0  //正解したカードのペア数
     };
   }
   componentDidMount() {
@@ -20,6 +29,8 @@ class Game extends Component {
       baseURL: "https://kadou.i.nijibox.net/api",
       withCredentials: true
     });
+
+    this.loadDepartments();
   }
   commonResponseHandling(res) {
     console.debug(res);
@@ -45,42 +56,83 @@ class Game extends Component {
       page: parseInt(target.getAttribute("data-page"), 10) || 1
     };
     return this.httpClient
-      .get("/who/Game/", { params: params })
+      .get("/who/search/", { params: params })
       .then(this.commonResponseHandling)
       .then(result => {
         this.setState({
           userList: result.item_list,
           summary: result.summary,
-          departmentID: params.department_id,
           departmentName: departmentName
         });
       });
   }
-  PickRandomNum(totalNum) {
-    const total = parseInt(totalNum, 10);
+
+  // 以下ゲームで使いたい関数
+
+  PickRandomUserList(userList, num) {
+    var a = userList;
+    var t = [];
+    var randomUserList = [];
+    var l = a.length;
+    var n = num < l ? num : l;
+    while (n-- > 0) {
+      var i = Math.random() * l | 0;
+      randomUserList[n] = t[i] || a[i];
+      --l;
+      t[i] = t[l] || a[l];
+    }
+    return randomUserList;
   }
+
+  GenerateCardList(randomUserList) {
+    const cardList = [];
+    for (let i = 0; i < randomUserList.length; i++) {
+      const item = randomUserList[i];
+      cardList.push(item, item);
+    }
+    return cardList;
+  }
+  ShuffleCardList(cardList) {
+    cardList.sort(function () {
+      return Math.random() - Math.random();
+    });
+  }
+
+  setCardList(userList) {
+    const randomUSerList = this.PickRandomUserList(userList, 5);
+    const cardList = this.GenerateCardList(randomUSerList);
+    this.ShuffleCardList(cardList);
+    this.setState({
+      cardList: cardList
+    });
+  }
+
+
+
+
   render() {
     return (
       <div>
         <h1>神経衰弱</h1>
+        <div>
+          <h2>部署を選ぶ</h2>
           <div>
-            <h2>部署を選ぶ</h2>
-            <div>
-              <ul>
-                {this.state.departmentList.map((row, index) => {
-                  return (
-                    <li key={index}>
-                      <button
-                        onClick={e => this.loadUserInfo(e)}
-                        data-id={row.department_id}
-                        type="button"
-                      >
-                        {row.department_name}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
+            <ul>
+              {this.state.departmentList.map((row, index) => {
+                return (
+                  <li key={index}>
+                    <input type="radio" name="department" value=""
+                      onClick={e =>
+                        this.loadUserInfo(e)
+                      }
+                      data-id={row.department_id}
+                    />
+                      {row.department_name}
+                  </li>
+                );
+              })}
+            </ul>
+            <button onClick={e => this.setCardList(this.state.userList)} type="button">遊ぶ！</button>
           </div>
         </div>
         <div>
