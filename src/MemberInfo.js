@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom";
-import '../App.css';
+import './App.css';
 
 class Memberlist extends Component {
     constructor(props){

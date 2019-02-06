@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom";
-import '../App.css';
+import './App.css';
 import Memberlist from './Memberlist';
 
 class Search extends Component {
@@ -22,28 +22,7 @@ class Search extends Component {
       withCredentials: true
     });
 
-    this.loadAuth()
-      .then(() => {
-        if (!this.state.isLogin) {
-          return Promise.resolve();
-        }
-        return this.loadDepartments();
-      })
-      .catch(err => {
-        alert("APIがエラーを返しました\n\n" + err);
-      });
-  }
-  loadAuth() {
-    return this.httpClient
-      .get("/auth", { params: { callback: "http://localhost:3000" } })
-      .then(this.commonResponseHandling)
-      .then(result => {
-        if (result.is_login) {
-          this.setState({ isLogin: true });
-        } else if (result.auth_url) {
-          window.location.href = result.auth_url;
-        }
-      });
+    this.loadDepartments();
   }
   commonResponseHandling(res) {
     console.debug(res);
