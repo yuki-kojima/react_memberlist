@@ -61,7 +61,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
           <div className="wrap">
             <Route exact path="/" component={Top} />
             <Route path="/search" component={Search} />
