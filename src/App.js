@@ -17,6 +17,7 @@ class App extends Component {
     };
   }
   componentDidMount() {
+
     this.httpClient = axios.create({
       baseURL: "https://kadou.i.nijibox.net/api",
       withCredentials: true
@@ -34,7 +35,11 @@ class App extends Component {
   }
   loadAuth() {
     return this.httpClient
-      .get("/auth", { params: { callback: "http://localhost:3000" } })
+      .get("/auth", {
+        params: {
+          callback: "https://yuki-kojima.github.io/react_memberlist/"
+        }
+      })
       .then(this.commonResponseHandling)
       .then(result => {
         if (result.is_login) {

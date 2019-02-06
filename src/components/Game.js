@@ -20,29 +20,6 @@ class Game extends Component {
       baseURL: "https://kadou.i.nijibox.net/api",
       withCredentials: true
     });
-
-    this.loadAuth()
-      .then(() => {
-        if (!this.state.isLogin) {
-          return Promise.resolve();
-        }
-        return this.loadDepartments();
-      })
-      .catch(err => {
-        alert("APIがエラーを返しました\n\n" + err);
-      });
-  }
-  loadAuth() {
-    return this.httpClient
-      .get("/auth", { params: { callback: "http://localhost:3000" } })
-      .then(this.commonResponseHandling)
-      .then(result => {
-        if (result.is_login) {
-          this.setState({ isLogin: true });
-        } else if (result.auth_url) {
-          window.location.href = result.auth_url;
-        }
-      });
   }
   commonResponseHandling(res) {
     console.debug(res);
