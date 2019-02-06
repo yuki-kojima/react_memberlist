@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from 'axios';
 import 'ress';
 import './App.css';
-import Top from "./components/Top";
-import Search from "./components/Search";
-import MemberInfo from "./components/MemberInfo";
-import Game from "./components/Game";
+import Top from "./Top";
+import Search from "./Search";
+import MemberInfo from "./MemberInfo";
+import Game from "./Game";
 
 
 class App extends Component {
@@ -37,7 +37,7 @@ class App extends Component {
     return this.httpClient
       .get("/auth", {
         params: {
-          callback: "https://yuki-kojima.github.io/react_memberlist/"
+          callback: "http://localhost:3000"
         }
       })
       .then(this.commonResponseHandling)
@@ -61,13 +61,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="wrap">
-        <Router>
-          <div>
+      <Router>
+          <div className="wrap">
             <Route exact path="/" component={Top} />
             <Route path="/search" component={Search} />
-            <Route path='/user/:id' component={MemberInfo} />
-            <Route path='/game' component={Game} />
+            <Route path="/user/:id" component={MemberInfo} />
+            <Route path="/game" component={Game} />
             {/* <Route path="/memberlist" component={Memberlist} /> */}
             {/* <Route path="/" component={Memberlist} /> */}
             {/* <Route
@@ -83,7 +82,6 @@ class App extends Component {
             /> */}
           </div>
         </Router>
-      </div>
     );
   }
 }
