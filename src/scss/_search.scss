@@ -1,0 +1,41 @@
+.l-departmentlist {
+    margin-top: 3rem;
+}
+
+.departmentlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 600px;
+    margin: 0 auto;
+    > li {
+        flex-shrink: 0;
+        width: 33%;
+        padding: .5rem;
+        .departmentlist__item {
+            width: 100%;
+        }
+    }
+}
+
+.l-freeword {
+    margin-top: 3rem;
+}
+
+.freeword {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    margin: 0 auto;
+    .freeword__input {
+        width: 300px;
+        height: 100%;
+        flex-shrink: 0;
+    }
+    .freeword__btn {
+        flex-shrink: 0;
+        margin-left: 1rem;
+    }
+}

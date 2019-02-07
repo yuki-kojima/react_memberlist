@@ -23,7 +23,7 @@ class Memberlist extends Component {
           }
         }
     return (
-      <div>
+      <div className="result-container">
 
         {this.props.userList ? <div>
             <h2>社員一覧</h2>
@@ -46,7 +46,7 @@ class Memberlist extends Component {
                     <button type="button" className={"btn-pager" + ' ' + (!flgNext ? "is-hidden" : '')} onClick={e => this.props.loadUserInfo(e)} data-page={parseInt(currentPage, 10) + 1} data-id={this.props.departmentID} data-query={this.props.query}>次へ</button>
                 </div>
             </div>
-        </div> : <p>検索してください</p>
+        </div> : <p className="result-message">検索してください</p>
         }
       </div>
     );

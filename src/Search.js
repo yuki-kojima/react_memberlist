@@ -78,8 +78,8 @@ class Search extends Component {
         <div>
           <div>
             <h2>部署から検索する</h2>
-            <div>
-              <ul>
+            <div className="l-departmentlist">
+              <ul className="departmentlist">
                 {this.state.departmentList.map((row, index) => {
                   return (
                     <li key={index}>
@@ -87,6 +87,7 @@ class Search extends Component {
                         onClick={e => this.loadUserInfo(e)}
                         data-id={row.department_id}
                         type="button"
+                        className="departmentlist__item"
                       >
                         {row.department_name}
                       </button>
@@ -98,15 +99,18 @@ class Search extends Component {
           </div>
           <div>
             <h2>フリーワードで検索する</h2>
-            <div>
-              <input type="text" onChange={e => this.changeInputText(e)} />
-              <button
-                onClick={e => this.onClickSearh(e)}
-                data-query={this.state.inputText}
-                type="button"
-              >
-                検索する
-              </button>
+            <div className="l-freeword">
+              <div className="freeword">
+                <input className="freeword__input" type="text" onChange={e => this.changeInputText(e)} placeholder="キーワードを入れてください"/>
+                <button
+                  onClick={e => this.onClickSearh(e)}
+                  data-query={this.state.inputText}
+                  type="button"
+                  className="freeword__btn"
+                >
+                  検索する
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -118,8 +122,12 @@ class Search extends Component {
             query={this.state.query}
           />
         </div>
-
-        <Link to="/">トップへ戻る</Link>
+        <div className="l-pager">
+          <div className="pager pager--search">
+            <Link to="/">トップへ戻る</Link>
+          </div>
+        </div>
+        
       </div>
     );
   }
