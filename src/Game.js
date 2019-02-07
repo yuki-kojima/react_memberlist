@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import $ from "jquery";
 import { Link } from "react-router-dom";
 import GameBoard from "./GameBoard";
 import './App.css';
@@ -12,16 +13,11 @@ class Game extends Component {
       departmentList: [],
       userList: null,
       summary: null,
-      departmentName: '',
-      total: 20,  //カードの枚数
-      speed: 150,  //カードをめくる速度
-      returnSec: 1000,  //めくったカードが元に戻る秒数
-      cardList: [],  //各カードの情報を入れる配列({id:user_id, photo: photo_url})
-      index: null,  //クリックしたカードの並び順
-      first: true,  //クリックしたカードが1枚目かどうかの判定用
-      card1: null,  //1枚目に引いたカードの番号
-      card2: null,  //2枚目に引いたカードの番号
-      pair: 0  //正解したカードのペア数
+      departmentName: "",
+      pairNum: 0, //ペアになったカードの組数
+      cardList: [], //各カードの情報を入れる配列({id:user_id, photo: photo_url})
+      flgFirst: true, //クリックしたカードが1枚目かどうかの判定用
+      firstCard: null, //1枚目に引いたカードの番号
     };
   }
   componentDidMount() {
@@ -68,7 +64,7 @@ class Game extends Component {
   }
 
   // 以下ゲームで使いたい関数
-
+  // カード生成
   PickRandomUserList(userList, num) {
     var a = userList;
     var t = [];
@@ -76,7 +72,7 @@ class Game extends Component {
     var l = a.length;
     var n = num < l ? num : l;
     while (n-- > 0) {
-      var i = Math.random() * l | 0;
+      var i = (Math.random() * l) | 0;
       randomUserList[n] = t[i] || a[i];
       --l;
       t[i] = t[l] || a[l];
@@ -93,12 +89,15 @@ class Game extends Component {
     return cardList;
   }
   ShuffleCardList(cardList) {
-    cardList.sort(function () {
+    cardList.sort(function() {
       return Math.random() - Math.random();
     });
   }
 
   setCardList(userList) {
+    if (userList === null) {
+      return;
+    }
     const randomUSerList = this.PickRandomUserList(userList, 5);
     const cardList = this.GenerateCardList(randomUSerList);
     this.ShuffleCardList(cardList);
@@ -107,8 +106,107 @@ class Game extends Component {
     });
   }
 
+  initGameStatus() {
+    this.setState({
+      pairNum: 0,
+      firstCard: null,
+      flgFirst: true
+    })
+  }
 
+  startGame(userList) {
+    this.initGameStatus();
+    this.setCardList(userList);
+  }
 
+  // クリック時の関数
+  changeCard($target, func, speed) {
+    const $targetImg = $target.find("img");
+    $targetImg.stop().animate({ left: "75" }, speed);
+    $targetImg.stop().animate({ width: "0", height: "150" }, speed, function() {
+      func($target, speed);
+    });
+  }
+  //面を開く
+  showUpside($target, speed) {
+    const $targetImg = $target.find("img");
+    const imgSrc = $target.data("img");
+    $targetImg.attr("src", imgSrc);
+    $targetImg.stop().animate({ width: "150px", height: "150" }, speed);
+    $target.stop().animate({ left: "0" }, speed);
+  }
+  //裏を開く
+  showBackside($target, speed) {
+    const $targetImg = $target.find("img");
+    $targetImg.attr("src", "./nblogo.jpg");
+    $targetImg
+      .stop()
+      .animate({ width: "150px", height: "150" }, speed);
+    $target.stop().animate({ left: "0" }, speed);
+  }
+  //クリックできないようにカードをロック
+  lockCard($target) {
+    $target.addClass("is-locked");
+  }
+  //全てのカードをロック
+  lockAllCard() {
+    $("#card li").addClass("is-locked");
+  }
+  //全てのカードをアンロック
+  unlockAllCards() {
+    $("#card li").removeClass("is-locked");
+  }
+
+  // 判定
+  judgeCards($secondCard, speed) {
+    let pairNum = this.state.pairNum;
+    const $firstCard = this.state.firstCard;
+    const id1 = $firstCard.data("id");
+    const id2 = $secondCard.data("id");
+    const total = this.state.cardList.length;
+    if (id1 === id2) {
+      $firstCard.addClass("is-disabled");
+      $secondCard.addClass("is-disabled");
+      pairNum++;
+      if(pairNum === total / 2) {
+        setTimeout(() => {
+          alert("コンプリート！！！");
+        }, 1000)
+      }
+      this.setState({
+        pairNum: pairNum
+      });
+    } else {
+      setTimeout(() => {
+        this.changeCard($secondCard, this.showBackside);
+        this.changeCard($firstCard, this.showBackside);
+      }, 1000)
+    }
+    this.setState({
+      flgFirst: true
+    })
+    setTimeout(() => {
+      this.unlockAllCards();
+    }, speed * 2 + 1000);
+  }
+  // カードクリック時の挙動
+  handleCardClick(e) {
+    const $target = $(e.currentTarget);
+    const speed = 150;
+    let flgFirst = this.state.flgFirst;
+    this.lockCard($target);
+    this.changeCard($target, this.showUpside, speed);
+
+    if (flgFirst === true) {
+      this.setState({
+        firstCard: $target,
+        flgFirst: false
+      })
+    } else {
+      this.lockAllCard();
+      this.judgeCards($target, speed);
+    }
+  }
 
   render() {
     return (
@@ -121,22 +219,34 @@ class Game extends Component {
               {this.state.departmentList.map((row, index) => {
                 return (
                   <li key={index}>
-                    <input type="radio" name="department" value=""
-                      onClick={e =>
-                        this.loadUserInfo(e)
-                      }
+                    <input
+                      type="radio"
+                      name="department"
+                      value=""
+                      onClick={e => this.loadUserInfo(e)}
                       data-id={row.department_id}
                     />
-                      {row.department_name}
+                    {row.department_name}
                   </li>
                 );
               })}
             </ul>
-            <button onClick={e => this.setCardList(this.state.userList)} type="button">遊ぶ！</button>
+            <button
+              onClick={e => this.startGame(this.state.userList)}
+              type="button"
+            >
+              遊ぶ！
+            </button>
           </div>
         </div>
         <div>
-          <GameBoard />
+          <GameBoard
+            cardList={this.state.cardList}
+            handleCardClick={(e, flgFirst) =>
+              this.handleCardClick(e, flgFirst)
+            }
+            flgFirst={this.props.flgFirst}
+          />
         </div>
 
         <Link to="/">トップへ戻る</Link>

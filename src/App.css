@@ -85,3 +85,23 @@ input[type="text"] {
   border-spacing: 1rem; }
   .infotable .infotable__header {
     text-align: right; }
+
+#card {
+  margin: 20px;
+  width: 100%;
+  height: 200px;
+  list-style: none; }
+
+#card li {
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+  float: left;
+  position: relative;
+  cursor: pointer; }
+
+#card li img {
+  position: absolute; }
+
+#card li.is-disabled, #card li.is-locked {
+  pointer-events: none; }
