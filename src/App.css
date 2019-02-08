@@ -189,6 +189,18 @@ button {
   .infotable .infotable__header {
     text-align: right; }
 
+.l-game-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  margin-top: 4rem;
+  font-weight: bold;
+  font-size: 2rem; }
+
+.l-btn-start {
+  margin-top: 3rem; }
+
 #card {
   margin: 20px;
   width: 100%;
@@ -208,3 +220,19 @@ button {
 
 #card li.is-disabled, #card li.is-locked {
   pointer-events: none; }
+
+.radiolist {
+  margin: 2rem auto 0 auto;
+  width: 600px;
+  display: flex;
+  flex-wrap: wrap; }
+  .radiolist > li {
+    width: 33%; }
+
+.game-text {
+  text-align: center; }
+
+.btn-start {
+  display: block;
+  width: 200px;
+  margin: 0 auto; }

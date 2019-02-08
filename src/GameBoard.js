@@ -6,7 +6,11 @@ class GameBoard extends Component {
         const cardList = this.props.cardList;
 
         if (cardList.length === 0) {
-            return (<div>部署を選んでください</div>);
+            return (
+              <div className="l-game-text">
+                <div className="game-text">部署を選んでください</div>
+              </div>
+            );
         } else {
             return (
                 <ul id="card">

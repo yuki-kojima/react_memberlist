@@ -215,7 +215,7 @@ class Game extends Component {
         <div>
           <h2>部署を選ぶ</h2>
           <div>
-            <ul>
+            <ul className="radiolist">
               {this.state.departmentList.map((row, index) => {
                 return (
                   <li key={index}>
@@ -231,12 +231,15 @@ class Game extends Component {
                 );
               })}
             </ul>
-            <button
-              onClick={e => this.startGame(this.state.userList)}
-              type="button"
-            >
-              遊ぶ！
-            </button>
+            <div className="l-btn-start">
+              <button
+                onClick={e => this.startGame(this.state.userList)}
+                type="button"
+                className="btn-start"
+              >
+                遊ぶ！
+              </button>
+            </div>
           </div>
         </div>
         <div>
@@ -248,8 +251,11 @@ class Game extends Component {
             flgFirst={this.props.flgFirst}
           />
         </div>
-
-        <Link to="/">トップへ戻る</Link>
+        <div className="l-pager">
+          <div className="pager">
+            <Link to="/">トップへ戻る</Link>
+          </div>
+        </div>
       </div>
     );
   }
