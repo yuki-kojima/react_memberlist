@@ -37,7 +37,7 @@ class App extends Component {
     return this.httpClient
       .get("/auth", {
         params: {
-          callback: "http://localhost:3000"
+          callback: "https://yuki-kojima.github.io/react_memberlist/"
         }
       })
       .then(this.commonResponseHandling)
