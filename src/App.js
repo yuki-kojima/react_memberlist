@@ -37,7 +37,7 @@ class App extends Component {
     return this.httpClient
       .get("/auth", {
         params: {
-          callback: "https://yuki-kojima.github.io/react_memberlist/"
+          callback: "http://localhost:3000"
         }
       })
       .then(this.commonResponseHandling)
@@ -67,19 +67,6 @@ class App extends Component {
             <Route path="/search" component={Search} />
             <Route path="/user/:id" component={MemberInfo} />
             <Route path="/game" component={Game} />
-            {/* <Route path="/memberlist" component={Memberlist} /> */}
-            {/* <Route path="/" component={Memberlist} /> */}
-            {/* <Route
-              path="/search"
-              render={() => (
-                <Search departmentList={this.state.departmentList} loadUserbyDepartment={e => this.loadUserbyDepartment(e)}/>
-              )}
-            />
-            <Route path="/game" component={Game} />
-            <Route path="/memberlist" render={() => (
-              <Memberlist departmentList={this.state.departmentList} userlist={this.state.userlist}/>
-              )}
-            /> */}
           </div>
         </Router>
     );

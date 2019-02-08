@@ -157,11 +157,6 @@ button {
   .pager .pager__page {
     margin: 0 15px; }
 
-.btn-pager {
-  visibility: visible; }
-  .btn-pager.is-hidden {
-    visibility: hidden; }
-
 .memberinfo {
   display: flex;
   justify-content: center; }

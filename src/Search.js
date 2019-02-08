@@ -11,9 +11,9 @@ class Search extends Component {
       isLogin: false,
       departmentList: [],
       userList: null,
-      departmentID: null,
-      query: null,
-      inputText: ""
+      departmentID: '',
+      query: '',
+      page: 1,
     };
   }
   componentDidMount() {
@@ -40,36 +40,88 @@ class Search extends Component {
         this.setState({ departmentList: result });
       });
   }
-  loadUserInfo(e) {
-    const target = e.target;
+  setDepartmentIdState(e) {
+    const id = e.target.value;
+    this.initPageState();
+    this.setState(
+      {
+        departmentID: id
+      }
+    )
+  }
+  setQueryState(e) {
+    const query = e.target.value;
+    this.initPageState();
+    this.setState({
+      query: query
+    });
+  }
+  // setPageState(result) {
+  //   const currentPage = parseInt(result.summary.current_page);
+  //   const totalPages = parseInt(result.summary.total_pages);
+  //   let nextPage;
+  //   let prevPage;
+  //   if (!(currentPage === totalPages)) {
+  //     nextPage = currentPage + 1;
+  //   } else{
+  //     nextPage = null;
+  //   }
+  //   if (!(currentPage === 1)) {
+  //     prevPage = currentPage - 1;
+  //   } else {
+  //     prevPage = null;
+  //   }
+  //   this.setState({
+  //     nextPage: nextPage,
+  //     prevPage: prevPage
+  //   })
+  // }
+  generateParams() {
+    const departmentID = parseInt(this.state.departmentID, 10) || null;
+    const page = parseInt(this.state.page, 10);
+    const query = this.state.query;
     const params = {
-      department_id: parseInt(target.getAttribute("data-id"), 10) || null,
-      page: parseInt(target.getAttribute("data-page"), 10) || 1,
-      query: target.value || target.getAttribute("data-query") || ""
+      department_id: departmentID,
+      page: page,
+      query: query
     };
+
+    return params;
+  }
+  loadUserInfo(params) {
     return this.httpClient
       .get("/who/search/", { params: params })
       .then(this.commonResponseHandling)
       .then(result => {
         this.setState({
           userList: result,
-          departmentID: params.department_id,
-          query: params.query
         });
       });
   }
-  changeInputText(e) {
-    const value = e.target.value;
-
-    this.setState({
-      inputText: value
-    });
-  }
-  onClickSearh(e) {
-    if (e.target.getAttribute("data-query").trim().length === 0) {
+  onClickSearh() {
+    let params;
+    if ((this.state.departmentID === '') && (this.state.query === '')) {
+        alert('条件を指定してください');
         return;
     }
-    this.loadUserInfo(e);
+    params = this.generateParams();
+    this.loadUserInfo(params);
+  }
+  onClickPager(e) {
+    const target = e.target;
+    const page = target.getAttribute("data-page");
+    this.setState({
+      page: page
+    },
+    () => {
+      const params = this.generateParams();
+      this.loadUserInfo(params);
+    });
+  }
+  initPageState() {
+    this.setState({
+      page: 1
+    });
   }
   render() {
     return (
@@ -79,32 +131,25 @@ class Search extends Component {
           <div>
             <h2>部署から検索する</h2>
             <div className="l-departmentlist">
-              <ul className="departmentlist">
+              <select className="departmentlist" onChange={e => this.setDepartmentIdState(e)}>
+                <option key="0" value="">指定しない</option>
                 {this.state.departmentList.map((row, index) => {
                   return (
-                    <li key={index}>
-                      <button
-                        onClick={e => this.loadUserInfo(e)}
-                        data-id={row.department_id}
-                        type="button"
-                        className="departmentlist__item"
-                      >
+                    <option key={index + 1} value={row.department_id}>
                         {row.department_name}
-                      </button>
-                    </li>
+                    </option>
                   );
                 })}
-              </ul>
+              </select>
             </div>
           </div>
           <div>
             <h2>フリーワードで検索する</h2>
             <div className="l-freeword">
               <div className="freeword">
-                <input className="freeword__input" type="text" onChange={e => this.changeInputText(e)} placeholder="キーワードを入れてください"/>
+                <input className="freeword__input" type="text" onChange={e => this.setQueryState(e)} placeholder="キーワードを入れてください"/>
                 <button
                   onClick={e => this.onClickSearh(e)}
-                  data-query={this.state.inputText}
                   type="button"
                   className="freeword__btn"
                 >
@@ -120,6 +165,7 @@ class Search extends Component {
             loadUserInfo={e => this.loadUserInfo(e)}
             departmentID={this.state.departmentID}
             query={this.state.query}
+            onClickPager={e => this.onClickPager(e)}
           />
         </div>
         <div className="l-pager">
@@ -127,7 +173,6 @@ class Search extends Component {
             <Link to="/">トップへ戻る</Link>
           </div>
         </div>
-        
       </div>
     );
   }
