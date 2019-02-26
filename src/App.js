@@ -37,7 +37,7 @@ class App extends Component {
     return this.httpClient
       .get("/auth", {
         params: {
-          callback: "http://localhost:3000"
+          callback: process.env.REACT_APP_CALLBACK_URL
         }
       })
       .then(this.commonResponseHandling)
