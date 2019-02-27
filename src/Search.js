@@ -11,9 +11,8 @@ class Search extends Component {
       isLogin: false,
       departmentList: [],
       userList: null,
-      departmentID: '',
-      query: '',
-      page: 1,
+      shownDepartmentID: '',
+      shownQuery: ''
     };
   }
   componentDidMount() {
@@ -40,50 +39,11 @@ class Search extends Component {
         this.setState({ departmentList: result });
       });
   }
-  setDepartmentIdState(e) {
-    const id = e.target.value;
-    this.initPageState();
-    this.setState(
-      {
-        departmentID: id
-      }
-    )
-  }
-  setQueryState(e) {
-    const query = e.target.value;
-    this.initPageState();
-    this.setState({
-      query: query
-    });
-  }
-  // setPageState(result) {
-  //   const currentPage = parseInt(result.summary.current_page);
-  //   const totalPages = parseInt(result.summary.total_pages);
-  //   let nextPage;
-  //   let prevPage;
-  //   if (!(currentPage === totalPages)) {
-  //     nextPage = currentPage + 1;
-  //   } else{
-  //     nextPage = null;
-  //   }
-  //   if (!(currentPage === 1)) {
-  //     prevPage = currentPage - 1;
-  //   } else {
-  //     prevPage = null;
-  //   }
-  //   this.setState({
-  //     nextPage: nextPage,
-  //     prevPage: prevPage
-  //   })
-  // }
-  generateParams() {
-    const departmentID = parseInt(this.state.departmentID, 10) || null;
-    const page = parseInt(this.state.page, 10);
-    const query = this.state.query;
+  generateParams(departmentID, query, page) {
     const params = {
       department_id: departmentID,
-      page: page,
-      query: query
+      query: query,
+      page: page
     };
 
     return params;
@@ -95,33 +55,30 @@ class Search extends Component {
       .then(result => {
         this.setState({
           userList: result,
+          shownDepartmentID: params.department_id,
+          shownQuery: params.query
         });
       });
   }
   onClickSearh() {
+    const departmentID = document.getElementById('js-departmentID').value;
+    const query = document.getElementById('js-freeword').value;
+    const page = 1;
     let params;
-    if ((this.state.departmentID === '') && (this.state.query === '')) {
+    if ((departmentID === '') && (query === '')) {
         alert('条件を指定してください');
         return;
     }
-    params = this.generateParams();
+    params = this.generateParams(departmentID, query, page);
     this.loadUserInfo(params);
   }
   onClickPager(e) {
     const target = e.target;
+    const departmentID = target.getAttribute("data-id");
+    const query = target.getAttribute("data-query");
     const page = target.getAttribute("data-page");
-    this.setState({
-      page: page
-    },
-    () => {
-      const params = this.generateParams();
-      this.loadUserInfo(params);
-    });
-  }
-  initPageState() {
-    this.setState({
-      page: 1
-    });
+    const params = this.generateParams(departmentID, query, page);
+    this.loadUserInfo(params);
   }
   render() {
     return (
@@ -131,7 +88,7 @@ class Search extends Component {
           <div>
             <h2>部署から検索する</h2>
             <div className="l-departmentlist">
-              <select className="departmentlist" onChange={e => this.setDepartmentIdState(e)}>
+              <select id="js-departmentID" className="departmentlist">
                 <option key="0" value="">指定しない</option>
                 {this.state.departmentList.map((row, index) => {
                   return (
@@ -147,7 +104,7 @@ class Search extends Component {
             <h2>フリーワードで検索する</h2>
             <div className="l-freeword">
               <div className="freeword">
-                <input className="freeword__input" type="text" onChange={e => this.setQueryState(e)} placeholder="キーワードを入れてください"/>
+                <input id="js-freeword" className="freeword__input" type="text" placeholder="キーワードを入れてください"/>
                 <button
                   onClick={e => this.onClickSearh(e)}
                   type="button"
@@ -163,8 +120,8 @@ class Search extends Component {
           <Memberlist
             userList={this.state.userList}
             loadUserInfo={e => this.loadUserInfo(e)}
-            departmentID={this.state.departmentID}
-            query={this.state.query}
+            departmentID={this.state.shownDepartmentID}
+            query={this.state.shownQuery}
             onClickPager={e => this.onClickPager(e)}
           />
         </div>
