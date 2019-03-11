@@ -6,10 +6,8 @@ class Memberlist extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: null,
       nextPage: null,
       prevPage: null,
-      totalPages: null,
       flgPrev: true,
       flgNext: false
     }
@@ -21,35 +19,33 @@ class Memberlist extends Component {
     if(!props.userList) {
       return;
     }
-    const currentPage = parseInt(props.userList.summary.current_page);
-    const totalPages = parseInt(props.userList.summary.total_pages);
+    const shownPage = props.shownPage;
+    const totalPages = props.totalPages;
     let nextPage;
     let prevPage;
-    if (!(currentPage === totalPages)) {
-      nextPage = currentPage + 1;
+    if (!(shownPage === totalPages)) {
+      nextPage = shownPage + 1;
     } else {
       nextPage = null;
     }
-    if (!(currentPage === 1)) {
-      prevPage = currentPage - 1;
+    if (!(shownPage === 1)) {
+      prevPage = shownPage - 1;
     } else {
       prevPage = null;
     }
     this.setState({
-      currentPage: currentPage,
       nextPage: nextPage,
       prevPage: prevPage,
-      totalPages: totalPages
     }, () => {this.setPageFlg();})
   }
 
   setPageFlg() {
     let flgPrev = true;
     let flgNext = true;
-    if(this.state.currentPage === 1) {
+    if(this.props.shownPage === 1) {
       flgPrev = false;
     }
-    if (this.state.currentPage === this.state.totalPages || this.state.totalPages === 0) {
+    if (this.props.shownPage === this.props.totalPages || this.props.totalPages === 0) {
       flgNext = false;
     }
     this.setState({
@@ -58,10 +54,6 @@ class Memberlist extends Component {
     });
   }
   render() {
-
-      let userInfo;
-      if (this.props.userList){
-          userInfo = this.props.userList.item_list;        }
     return (
       <div className="result-container">
 
@@ -69,7 +61,7 @@ class Memberlist extends Component {
             <h2>社員一覧</h2>
             <div>
                 <ul className="l-memberlist">
-                    {userInfo.map((row, index) => {
+                    {this.props.userList.map((row, index) => {
                         return (
                           <li key={row.user_id}>
                             <Link to={"/user/" + row.user_id} className="memberlist">
@@ -82,7 +74,7 @@ class Memberlist extends Component {
                 </ul>
                 <div className="pager">
                     {this.state.flgPrev && <button type="button" className="btn-pager" onClick={e => this.props.onClickPager(e)} data-page={this.state.prevPage} data-id={this.props.departmentID} data-query={this.props.query}> 前へ</button>}
-                    <div className="pager__page">{this.state.currentPage}/{this.state.totalPages}ページ</div>
+                    <div className="pager__page">{this.props.shownPage}/{this.props.totalPages}ページ</div>
                     {this.state.flgNext && <button type="button" className="btn-pager" onClick={e => this.props.onClickPager(e)} data-page={this.state.nextPage} data-id={this.props.departmentID} data-query={this.props.query}>次へ</button>}
                 </div>
             </div>

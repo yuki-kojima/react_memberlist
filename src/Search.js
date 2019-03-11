@@ -10,9 +10,11 @@ class Search extends Component {
     this.state = {
       isLogin: false,
       departmentList: [],
-      userList: null,
-      shownDepartmentID: '',
-      shownQuery: ''
+      userList: [],
+      shownDepartmentID: null,
+      shownQuery: '',
+      shownPage: null,
+      totalPages: null
     };
   }
   componentDidMount() {
@@ -49,35 +51,67 @@ class Search extends Component {
     return params;
   }
   loadUserInfo(params) {
+    var userList;
+    var totalPages;
+    // 違う部署IDの場合はuserListをリセットする
+    if (this.isDefferentRequest(params)) {
+      userList = [];
+    } else {
+      userList = this.state.userList.concat();
+    }
     return this.httpClient
       .get("/who/search/", { params: params })
       .then(this.commonResponseHandling)
       .then(result => {
+        userList[params.page] = result.item_list;
+        totalPages = parseInt(result.summary.total_pages, 10);
         this.setState({
-          userList: result,
+          userList: userList,
           shownDepartmentID: params.department_id,
-          shownQuery: params.query
+          shownQuery: params.query,
+          shownPage: params.page,
+          totalPages: totalPages
         });
       });
   }
   onClickSearh() {
-    const departmentID = document.getElementById('js-departmentID').value;
+    const departmentID = parseInt(document.getElementById('js-departmentID').value, 10);
     const query = document.getElementById('js-freeword').value;
     const page = 1;
     let params;
-    if ((departmentID === '') && (query === '')) {
+    if ((departmentID === 0) && (query === '')) {
         alert('条件を指定してください');
         return;
     }
     params = this.generateParams(departmentID, query, page);
     this.loadUserInfo(params);
   }
+  isAlreadyRequestedPage(pageNum) {
+    if (this.state.userList[pageNum]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  isDefferentRequest(params) {
+    const isDifferentDepartmentID = (this.state.shownDepartmentID !== params.department_id);
+    const isDifferentQuery = (this.state.shownQuery !== params.query);
+    return isDifferentDepartmentID || isDifferentQuery;
+  }
   onClickPager(e) {
     const target = e.target;
-    const departmentID = target.getAttribute("data-id");
+    const departmentID = parseInt(target.getAttribute("data-id"), 10);
     const query = target.getAttribute("data-query");
-    const page = target.getAttribute("data-page");
+    const page = parseInt(target.getAttribute("data-page"), 10);
     const params = this.generateParams(departmentID, query, page);
+
+    // 同じページをリクエスト済みの場合はpageのステートの変更のみ行う
+    if (this.isAlreadyRequestedPage(params.page)) {
+      this.setState({
+        shownPage: params.page
+      });
+      return;
+    }
     this.loadUserInfo(params);
   }
   render() {
@@ -89,7 +123,7 @@ class Search extends Component {
             <h2>部署から検索する</h2>
             <div className="l-departmentlist">
               <select id="js-departmentID" className="departmentlist">
-                <option key="0" value="">指定しない</option>
+                <option key="0" value="0">指定しない</option>
                 {this.state.departmentList.map((row, index) => {
                   return (
                     <option key={index + 1} value={row.department_id}>
@@ -118,11 +152,13 @@ class Search extends Component {
         </div>
         <div>
           <Memberlist
-            userList={this.state.userList}
-            loadUserInfo={e => this.loadUserInfo(e)}
+            userList={this.state.userList[this.state.shownPage]}
+            dataSummary={this.state.dataSummary}
             departmentID={this.state.shownDepartmentID}
             query={this.state.shownQuery}
             onClickPager={e => this.onClickPager(e)}
+            shownPage={this.state.shownPage}
+            totalPages={this.state.totalPages}
           />
         </div>
         <div className="l-pager">
