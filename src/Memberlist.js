@@ -49,7 +49,7 @@ class Memberlist extends Component {
     if(this.state.currentPage === 1) {
       flgPrev = false;
     }
-    if (this.state.currentPage === this.state.totalPages) {
+    if (this.state.currentPage === this.state.totalPages || this.state.totalPages === 0) {
       flgNext = false;
     }
     this.setState({
