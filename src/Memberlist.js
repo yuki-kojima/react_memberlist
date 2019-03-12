@@ -19,17 +19,17 @@ class Memberlist extends Component {
     if(!props.userList) {
       return;
     }
-    const shownPage = props.shownPage;
+    const requestedPage = props.requestedPage;
     const totalPages = props.totalPages;
     let nextPage;
     let prevPage;
-    if (!(shownPage === totalPages)) {
-      nextPage = shownPage + 1;
+    if (!(requestedPage === totalPages)) {
+      nextPage = requestedPage + 1;
     } else {
       nextPage = null;
     }
-    if (!(shownPage === 1)) {
-      prevPage = shownPage - 1;
+    if (!(requestedPage === 1)) {
+      prevPage = requestedPage - 1;
     } else {
       prevPage = null;
     }
@@ -42,10 +42,10 @@ class Memberlist extends Component {
   setPageFlg() {
     let flgPrev = true;
     let flgNext = true;
-    if(this.props.shownPage === 1) {
+    if(this.props.requestedPage === 1) {
       flgPrev = false;
     }
-    if (this.props.shownPage === this.props.totalPages || this.props.totalPages === 0) {
+    if (this.props.requestedPage === this.props.totalPages || this.props.totalPages === 0) {
       flgNext = false;
     }
     this.setState({
@@ -56,7 +56,6 @@ class Memberlist extends Component {
   render() {
     return (
       <div className="result-container">
-
         {this.props.userList ? <div>
             <h2>社員一覧</h2>
             <div>
@@ -74,7 +73,7 @@ class Memberlist extends Component {
                 </ul>
                 <div className="pager">
                     {this.state.flgPrev && <button type="button" className="btn-pager" onClick={e => this.props.onClickPager(e)} data-page={this.state.prevPage} data-id={this.props.departmentID} data-query={this.props.query}> 前へ</button>}
-                    <div className="pager__page">{this.props.shownPage}/{this.props.totalPages}ページ</div>
+                    <div className="pager__page">{this.props.requestedPage}/{this.props.totalPages}ページ</div>
                     {this.state.flgNext && <button type="button" className="btn-pager" onClick={e => this.props.onClickPager(e)} data-page={this.state.nextPage} data-id={this.props.departmentID} data-query={this.props.query}>次へ</button>}
                 </div>
             </div>

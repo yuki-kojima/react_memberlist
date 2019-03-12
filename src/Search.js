@@ -11,9 +11,9 @@ class Search extends Component {
       isLogin: false,
       departmentList: [],
       userList: [],
-      shownDepartmentID: null,
-      shownQuery: '',
-      shownPage: null,
+      requestedDepartmentID: null,
+      requestedQuery: '',
+      requestedPage: null,
       totalPages: null
     };
   }
@@ -67,9 +67,9 @@ class Search extends Component {
         totalPages = parseInt(result.summary.total_pages, 10);
         this.setState({
           userList: userList,
-          shownDepartmentID: params.department_id,
-          shownQuery: params.query,
-          shownPage: params.page,
+          requestedDepartmentID: params.department_id,
+          requestedQuery: params.query,
+          requestedPage: params.page,
           totalPages: totalPages
         });
       });
@@ -94,8 +94,8 @@ class Search extends Component {
     }
   }
   isDefferentRequest(params) {
-    const isDifferentDepartmentID = (this.state.shownDepartmentID !== params.department_id);
-    const isDifferentQuery = (this.state.shownQuery !== params.query);
+    const isDifferentDepartmentID = (this.state.requestedDepartmentID !== params.department_id);
+    const isDifferentQuery = (this.state.requestedQuery !== params.query);
     return isDifferentDepartmentID || isDifferentQuery;
   }
   onClickPager(e) {
@@ -108,7 +108,7 @@ class Search extends Component {
     // 同じページをリクエスト済みの場合はpageのステートの変更のみ行う
     if (this.isAlreadyRequestedPage(params.page)) {
       this.setState({
-        shownPage: params.page
+        requestedPage: params.page
       });
       return;
     }
@@ -152,12 +152,12 @@ class Search extends Component {
         </div>
         <div>
           <Memberlist
-            userList={this.state.userList[this.state.shownPage]}
+            userList={this.state.userList[this.state.requestedPage]}
             dataSummary={this.state.dataSummary}
-            departmentID={this.state.shownDepartmentID}
-            query={this.state.shownQuery}
+            departmentID={this.state.requestedDepartmentID}
+            query={this.state.requestedQuery}
             onClickPager={e => this.onClickPager(e)}
-            shownPage={this.state.shownPage}
+            requestedPage={this.state.requestedPage}
             totalPages={this.state.totalPages}
           />
         </div>
