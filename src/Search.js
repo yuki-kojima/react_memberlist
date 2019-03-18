@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import './App.css';
 import Memberlist from './Memberlist';
+import QueryGenerator from './utility/QueryGenerator';
 
 class Search extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class Search extends Component {
       userList: [],
       requestedDepartmentID: null,
       requestedQuery: '',
-      requestedPage: null,
+      currentPage: null,
       totalPages: null
     };
   }
@@ -59,7 +60,7 @@ class Search extends Component {
           userList: result.item_list,
           requestedDepartmentID: params.department_id,
           requestedQuery: params.query,
-          requestedPage: params.page,
+          currentPage: result.summary.current_page,
           totalPages: result.summary.total_pages
         });
       });
@@ -67,23 +68,26 @@ class Search extends Component {
   onClickSearh() {
     const departmentID = parseInt(document.getElementById('js-departmentID').value, 10);
     const query = document.getElementById('js-freeword').value;
-    const page = 1;
-    let params;
+    const params = new QueryGenerator();
+
     if ((departmentID === 0) && (query === '')) {
         alert('条件を指定してください');
         return;
     }
-    params = this.generateParams(departmentID, query, page);
-    this.loadUserInfo(params);
+    params.department_id = departmentID;
+    params.query = query;
+    this.loadUserInfo(params.params);
   }
   onClickPager(e) {
     const target = e.target;
     const departmentID = parseInt(target.getAttribute("data-id"), 10);
     const query = target.getAttribute("data-query");
     const page = parseInt(target.getAttribute("data-page"), 10);
-    const params = this.generateParams(departmentID, query, page);
-
-    this.loadUserInfo(params);
+    const params = new QueryGenerator();
+    params.department_id = departmentID;
+    params.query = query;
+    params.page = page;
+    this.loadUserInfo(params.params);
   }
   render() {
     return (
@@ -128,7 +132,7 @@ class Search extends Component {
             departmentID={this.state.requestedDepartmentID}
             query={this.state.requestedQuery}
             onClickPager={e => this.onClickPager(e)}
-            requestedPage={this.state.requestedPage}
+            currentPage={this.state.currentPage}
             totalPages={this.state.totalPages}
           />
         </div>
