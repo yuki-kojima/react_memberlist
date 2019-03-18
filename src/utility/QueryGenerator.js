@@ -6,7 +6,7 @@ class QueryGenerator {
     }
 
     set department_id(ID) {
-    this._department_id = ID;
+        this._department_id = parseInt(ID, 10);
     }
 
     set query(query) {
@@ -14,7 +14,7 @@ class QueryGenerator {
     }
 
     set page(page) {
-    this._page = page;
+        this._page = parseInt(page, 10);
     }
 
     get params() {

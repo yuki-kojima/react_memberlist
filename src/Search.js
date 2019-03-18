@@ -66,7 +66,7 @@ class Search extends Component {
       });
   }
   onClickSearh() {
-    const departmentID = parseInt(document.getElementById('js-departmentID').value, 10);
+    const departmentID = document.getElementById('js-departmentID').value;
     const query = document.getElementById('js-freeword').value;
     const params = new QueryGenerator();
 
@@ -80,9 +80,9 @@ class Search extends Component {
   }
   onClickPager(e) {
     const target = e.target;
-    const departmentID = parseInt(target.getAttribute("data-id"), 10);
+    const departmentID = target.getAttribute("data-id");
     const query = target.getAttribute("data-query");
-    const page = parseInt(target.getAttribute("data-page"), 10);
+    const page = target.getAttribute("data-page");
     const params = new QueryGenerator();
     params.department_id = departmentID;
     params.query = query;
