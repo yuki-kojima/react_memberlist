@@ -56,7 +56,7 @@ class Memberlist extends Component {
   render() {
     return (
       <div className="result-container">
-        {this.props.userList ? <div>
+        {this.props.userList.length !== 0 ? <div>
             <h2>社員一覧</h2>
             <div>
                 <ul className="l-memberlist">

@@ -51,26 +51,22 @@ class Search extends Component {
     return params;
   }
   loadUserInfo(params) {
-    var userList;
-    var totalPages;
     // 違う部署IDの場合はuserListをリセットする
-    if (this.isDefferentRequest(params)) {
-      userList = [];
-    } else {
-      userList = this.state.userList.concat();
-    }
+    // if (this.isDefferentRequest(params)) {
+    //   userList = [];
+    // } else {
+    //   userList = this.state.userList.concat();
+    // }
     return this.httpClient
       .get("/who/search/", { params: params })
       .then(this.commonResponseHandling)
       .then(result => {
-        userList[params.page] = result.item_list;
-        totalPages = parseInt(result.summary.total_pages, 10);
         this.setState({
-          userList: userList,
+          userList: result.item_list,
           requestedDepartmentID: params.department_id,
           requestedQuery: params.query,
           requestedPage: params.page,
-          totalPages: totalPages
+          totalPages: result.summary.total_pages
         });
       });
   }
@@ -86,18 +82,18 @@ class Search extends Component {
     params = this.generateParams(departmentID, query, page);
     this.loadUserInfo(params);
   }
-  isAlreadyRequestedPage(pageNum) {
-    if (this.state.userList[pageNum]) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  isDefferentRequest(params) {
-    const isDifferentDepartmentID = (this.state.requestedDepartmentID !== params.department_id);
-    const isDifferentQuery = (this.state.requestedQuery !== params.query);
-    return isDifferentDepartmentID || isDifferentQuery;
-  }
+  // isAlreadyRequestedPage(pageNum) {
+  //   if (this.state.userList[pageNum]) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  // isDefferentRequest(params) {
+  //   const isDifferentDepartmentID = (this.state.requestedDepartmentID !== params.department_id);
+  //   const isDifferentQuery = (this.state.requestedQuery !== params.query);
+  //   return isDifferentDepartmentID || isDifferentQuery;
+  // }
   onClickPager(e) {
     const target = e.target;
     const departmentID = parseInt(target.getAttribute("data-id"), 10);
@@ -106,12 +102,12 @@ class Search extends Component {
     const params = this.generateParams(departmentID, query, page);
 
     // 同じページをリクエスト済みの場合はpageのステートの変更のみ行う
-    if (this.isAlreadyRequestedPage(params.page)) {
-      this.setState({
-        requestedPage: params.page
-      });
-      return;
-    }
+    // if (this.isAlreadyRequestedPage(params.page)) {
+    //   this.setState({
+    //     requestedPage: params.page
+    //   });
+    //   return;
+    // }
     this.loadUserInfo(params);
   }
   render() {
@@ -152,7 +148,7 @@ class Search extends Component {
         </div>
         <div>
           <Memberlist
-            userList={this.state.userList[this.state.requestedPage]}
+            userList={this.state.userList}
             dataSummary={this.state.dataSummary}
             departmentID={this.state.requestedDepartmentID}
             query={this.state.requestedQuery}
