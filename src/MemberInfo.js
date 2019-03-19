@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import './App.css';
 
-class Memberlist extends Component {
+class MemberInfo extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -93,4 +93,4 @@ class Memberlist extends Component {
   }
 }
 
-export default Memberlist;
+export default MemberInfo;
