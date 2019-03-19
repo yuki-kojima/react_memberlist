@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import './App.css';
 import Memberlist from './Memberlist';
 import QueryGenerator from './utility/QueryGenerator';
+import SelectDepartment from './SelectDepartment';
 
 class Search extends Component {
   constructor(props) {
@@ -96,18 +97,7 @@ class Search extends Component {
         <div>
           <div>
             <h2>部署から検索する</h2>
-            <div className="l-departmentlist">
-              <select id="js-departmentID" className="departmentlist">
-                <option key="0" value="">指定しない</option>
-                {this.state.departmentList.map((row, index) => {
-                  return (
-                    <option key={index + 1} value={row.department_id}>
-                        {row.department_name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+            <SelectDepartment departmentList={this.state.departmentList}/>
           </div>
           <div>
             <h2>フリーワードで検索する</h2>
