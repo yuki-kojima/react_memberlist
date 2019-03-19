@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import axios from 'axios';
+import axiosCreate from "./utility/httpClient";
+import handleResponse from "./utility/handleResponse";
 import 'ress';
 import './App.css';
 import Top from "./Top";
@@ -17,12 +18,7 @@ class App extends Component {
     };
   }
   componentDidMount() {
-
-    this.httpClient = axios.create({
-      baseURL: "https://kadou.i.nijibox.net/api",
-      withCredentials: true
-    });
-
+    this.httpClient = axiosCreate();
     this.loadAuth()
       .then(() => {
         if (!this.state.isLogin) {
@@ -51,12 +47,7 @@ class App extends Component {
   }
 
   commonResponseHandling(res) {
-    console.debug(res);
-    if (res.data.code !== "200") {
-      console.error(res.data.data);
-      return Promise.reject("API Error:" + res.data.data.message);
-    }
-    return Promise.resolve(res.data.data);
+    return handleResponse(res);
   }
 
   render() {
