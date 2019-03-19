@@ -15,8 +15,7 @@ class Search extends Component {
       userList: null,
       requestedDepartmentID: null,
       requestedQuery: '',
-      currentPage: null,
-      totalPages: null
+      dataSummary: null
     };
   }
   componentDidMount() {
@@ -61,8 +60,7 @@ class Search extends Component {
           userList: result.item_list,
           requestedDepartmentID: params.department_id,
           requestedQuery: params.query,
-          currentPage: result.summary.current_page,
-          totalPages: result.summary.total_pages
+          dataSummary: result.summary
         });
       });
   }
@@ -118,12 +116,10 @@ class Search extends Component {
         <div>
           <Memberlist
             userList={this.state.userList}
-            dataSummary={this.state.dataSummary}
             departmentID={this.state.requestedDepartmentID}
             query={this.state.requestedQuery}
+            dataSummary={this.state.dataSummary}
             onClickPager={e => this.onClickPager(e)}
-            currentPage={this.state.currentPage}
-            totalPages={this.state.totalPages}
           />
         </div>
         <div className="l-pager">

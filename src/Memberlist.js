@@ -6,6 +6,8 @@ class Memberlist extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentPage: null,
+      totalPages: null,
       nextPage: null,
       prevPage: null,
       flgPrev: false,
@@ -19,8 +21,8 @@ class Memberlist extends Component {
     if(props.userList === null || props.userList.length === 0) {
       return;
     }
-    const currentPage = props.currentPage;
-    const totalPages = props.totalPages;
+    const currentPage = props.dataSummary.current_page;
+    const totalPages = props.dataSummary.total_pages;
     let nextPage;
     let prevPage;
     if (!(currentPage === totalPages)) {
@@ -34,17 +36,19 @@ class Memberlist extends Component {
       prevPage = null;
     }
     this.setState({
+      currentPage: currentPage,
+      totalPages: totalPages,
       nextPage: nextPage,
-      prevPage: prevPage,
+      prevPage: prevPage
     }, () => {this.setPageFlg();})
   }
   setPageFlg() {
     let flgPrev = true;
     let flgNext = true;
-    if (this.props.currentPage === 1) {
+    if (this.state.currentPage === 1) {
       flgPrev = false;
     }
-    if (this.props.currentPage === this.props.totalPages || this.props.totalPages === 0) {
+    if (this.state.currentPage === this.state.totalPages || this.state.totalPages === 0) {
       flgNext = false;
     }
     this.setState({
@@ -74,7 +78,7 @@ class Memberlist extends Component {
             </ul>
             <div className="pager">
               {this.state.flgPrev && <button type="button" className="btn-pager" onClick={e => this.props.onClickPager(e)} data-page={this.state.prevPage} data-id={this.props.departmentID} data-query={this.props.query}> 前へ</button>}
-              <div className="pager__page">{this.props.currentPage}/{this.props.totalPages}ページ</div>
+              <div className="pager__page">{this.state.currentPage}/{this.state.totalPages}ページ</div>
               {this.state.flgNext && <button type="button" className="btn-pager" onClick={e => this.props.onClickPager(e)} data-page={this.state.nextPage} data-id={this.props.departmentID} data-query={this.props.query}>次へ</button>}
             </div>
           </div>
