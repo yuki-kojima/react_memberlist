@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import axios from "axios";
+// import axios from "axios";
 import { Link } from "react-router-dom";
 import './App.css';
+import axiosCreate from "./utility/httpClient"
 
 class MemberInfo extends Component {
     constructor(props){
@@ -12,11 +13,7 @@ class MemberInfo extends Component {
         }
     }
   componentDidMount() {
-    this.httpClient = axios.create({
-      baseURL: "https://kadou.i.nijibox.net/api",
-      withCredentials: true
-    });
-
+    this.httpClient = axiosCreate();
     this.loadUserDetail();
   }
   commonResponseHandling(res) {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import axios from "axios";
 import { Link } from "react-router-dom";
 import './App.css';
+import axiosCreate from "./utility/httpClient"
 import Memberlist from './Memberlist';
 import QueryGenerator from './utility/QueryGenerator';
 import SelectDepartment from './SelectDepartment';
@@ -19,11 +19,7 @@ class Search extends Component {
     };
   }
   componentDidMount() {
-    this.httpClient = axios.create({
-      baseURL: "https://kadou.i.nijibox.net/api",
-      withCredentials: true
-    });
-
+    this.httpClient = axiosCreate();
     this.loadDepartments();
   }
   commonResponseHandling(res) {
