@@ -16,7 +16,7 @@ class Memberlist extends Component {
     this.setPageState(props);
   }
   setPageState(props) {
-    if(!props.userList) {
+    if(props.userList === null || props.userList.length === 0) {
       return;
     }
     const currentPage = props.currentPage;
