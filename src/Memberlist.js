@@ -38,7 +38,20 @@ class Memberlist extends Component {
       prevPage: prevPage,
     }, () => {this.setPageFlg();})
   }
-
+  setPageFlg() {
+    let flgPrev = true;
+    let flgNext = true;
+    if (this.props.currentPage === 1) {
+      flgPrev = false;
+    }
+    if (this.props.currentPage === this.props.totalPages || this.props.totalPages === 0) {
+      flgNext = false;
+    }
+    this.setState({
+      flgPrev: flgPrev,
+      flgNext: flgNext
+    });
+  }
   renderUserList(userList) {
     if (userList === null) {
       return <p className="result-message">検索してください</p>;
@@ -72,20 +85,6 @@ class Memberlist extends Component {
     }
   }
 
-  setPageFlg() {
-    let flgPrev = true;
-    let flgNext = true;
-    if(this.props.currentPage === 1) {
-      flgPrev = false;
-    }
-    if (this.props.currentPage === this.props.totalPages || this.props.totalPages === 0) {
-      flgNext = false;
-    }
-    this.setState({
-      flgPrev: flgPrev,
-      flgNext: flgNext
-    });
-  }
   render() {
     return (
       <div className="result-container">
