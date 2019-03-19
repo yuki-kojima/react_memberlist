@@ -11,7 +11,7 @@ class Search extends Component {
     this.state = {
       isLogin: false,
       departmentList: [],
-      userList: [],
+      userList: null,
       requestedDepartmentID: null,
       requestedQuery: '',
       currentPage: null,
