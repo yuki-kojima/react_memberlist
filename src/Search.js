@@ -42,15 +42,6 @@ class Search extends Component {
         this.setState({ departmentList: result });
       });
   }
-  generateParams(departmentID, query, page) {
-    const params = {
-      department_id: departmentID,
-      query: query,
-      page: page
-    };
-
-    return params;
-  }
   loadUserInfo(params) {
     return this.httpClient
       .get("/who/search/", { params: params })
