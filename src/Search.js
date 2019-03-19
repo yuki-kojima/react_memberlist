@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import './App.css';
-import axiosCreate from "./utility/httpClient"
+import axiosCreate from "./utility/httpClient";
+import handleResponse from "./utility/handleResponse";
 import Memberlist from './Memberlist';
 import QueryGenerator from './utility/QueryGenerator';
 import SelectDepartment from './SelectDepartment';
-import handleResponse from "./utility/handleResponse"
 
 class Search extends Component {
   constructor(props) {

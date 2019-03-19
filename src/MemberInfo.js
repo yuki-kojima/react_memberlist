@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-// import axios from "axios";
 import { Link } from "react-router-dom";
 import './App.css';
-import axiosCreate from "./utility/httpClient"
-import handleResponse from "./utility/handleResponse"
+import axiosCreate from "./utility/httpClient";
+import handleResponse from "./utility/handleResponse";
 
 class MemberInfo extends Component {
     constructor(props){
