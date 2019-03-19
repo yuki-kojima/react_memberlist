@@ -70,7 +70,7 @@ class Search extends Component {
     const query = document.getElementById('js-freeword').value;
     const params = new QueryGenerator();
 
-    if ((departmentID === 0) && (query === '')) {
+    if ((departmentID === '') && (query === '')) {
         alert('条件を指定してください');
         return;
     }
@@ -98,7 +98,7 @@ class Search extends Component {
             <h2>部署から検索する</h2>
             <div className="l-departmentlist">
               <select id="js-departmentID" className="departmentlist">
-                <option key="0" value="0">指定しない</option>
+                <option key="0" value="">指定しない</option>
                 {this.state.departmentList.map((row, index) => {
                   return (
                     <option key={index + 1} value={row.department_id}>
