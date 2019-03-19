@@ -4,6 +4,7 @@ import axiosCreate from "./utility/httpClient";
 import handleResponse from "./utility/handleResponse";
 import 'ress';
 import './App.css';
+import Header from "./Header";
 import Top from "./Top";
 import Search from "./Search";
 import MemberInfo from "./MemberInfo";
@@ -54,6 +55,7 @@ class App extends Component {
     return (
       <Router basename={process.env.PUBLIC_URL}>
           <div className="wrap">
+            <Header />
             <Route exact path="/" component={Top} />
             <Route path="/search" component={Search} />
             <Route path="/user/:id" component={MemberInfo} />

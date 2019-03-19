@@ -56,6 +56,20 @@ button {
   button:hover {
     opacity: .6; }
 
+#header .header__inner {
+  height: 60px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+  .nav > li:not(:first-child) {
+    margin-left: 20px; }
+
 .menu {
   width: 500px;
   margin: 7rem auto 0 auto; }
