@@ -8,7 +8,7 @@ class Memberlist extends Component {
     this.state = {
       nextPage: null,
       prevPage: null,
-      flgPrev: true,
+      flgPrev: false,
       flgNext: false
     }
   }
