@@ -56,20 +56,20 @@ button {
   button:hover {
     opacity: .6; }
 
-.nav {
+.menu {
   width: 500px;
   margin: 7rem auto 0 auto; }
-  .nav h2.nav__title {
+  .menu h2.menu__title {
     text-align: center;
     font-size: 2.5rem; }
-  .nav .nav__list {
+  .menu .menu__list {
     display: flex;
     justify-content: center;
     margin-top: 5rem; }
-    .nav .nav__list > li {
+    .menu .menu__list > li {
       flex: 1;
       text-align: center; }
-      .nav .nav__list > li .nav__item {
+      .menu .menu__list > li .menu__item {
         display: inline-block;
         background-color: #fff;
         border: solid 1px #ccc;

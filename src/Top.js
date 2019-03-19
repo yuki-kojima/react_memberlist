@@ -7,13 +7,13 @@ class Top extends Component {
         return (
         <div>
             <h1>ニジボックス 社員名簿</h1>
-            <nav className="nav">
-                <h2 className="nav__title">メニュー</h2>
-                <ul className="nav__list">
-                    <li><Link to="/search" className="nav__item">社員検索</Link></li>
-                    <li><Link to="/game" className="nav__item">神経衰弱</Link></li>
+            <div className="menu">
+                <h2 className="menu__title">メニュー</h2>
+                <ul className="menu__list">
+                    <li><Link to="/search" className="menu__item">社員検索</Link></li>
+                    <li><Link to="/game" className="menu__item">神経衰弱</Link></li>
                 </ul>
-            </nav>
+            </div>
         </div>
         )
     }
