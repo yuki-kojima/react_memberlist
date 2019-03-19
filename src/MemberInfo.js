@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import './App.css';
 import axiosCreate from "./utility/httpClient"
+import handleResponse from "./utility/handleResponse"
 
 class MemberInfo extends Component {
     constructor(props){
@@ -17,12 +18,7 @@ class MemberInfo extends Component {
     this.loadUserDetail();
   }
   commonResponseHandling(res) {
-      console.debug(res);
-      if (res.data.code !== "200") {
-          console.error(res.data.data);
-          return Promise.reject("API Error:" + res.data.data.message);
-      }
-      return Promise.resolve(res.data.data);
+    return handleResponse(res);
   }
 
   loadUserDetail() {

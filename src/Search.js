@@ -5,6 +5,7 @@ import axiosCreate from "./utility/httpClient"
 import Memberlist from './Memberlist';
 import QueryGenerator from './utility/QueryGenerator';
 import SelectDepartment from './SelectDepartment';
+import handleResponse from "./utility/handleResponse"
 
 class Search extends Component {
   constructor(props) {
@@ -23,12 +24,7 @@ class Search extends Component {
     this.loadDepartments();
   }
   commonResponseHandling(res) {
-    console.debug(res);
-    if (res.data.code !== "200") {
-      console.error(res.data.data);
-      return Promise.reject("API Error:" + res.data.data.message);
-    }
-    return Promise.resolve(res.data.data);
+    return handleResponse(res);
   }
   loadDepartments() {
     return this.httpClient
