@@ -144,12 +144,14 @@ button {
   button:hover {
     opacity: .6; }
 
-#header .header__inner {
-  height: 60px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; }
+#header {
+  padding: 0 15px; }
+  #header .header__inner {
+    height: 60px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; }
 
 .pagetitle {
   display: flex;

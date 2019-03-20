@@ -54,14 +54,16 @@ class App extends Component {
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
+        <React.Fragment>
+          <Header />
           <div className="wrap">
-            <Header />
             <Route exact path="/" component={Top} />
             <Route path="/search" component={Search} />
             <Route path="/user/:id" component={MemberInfo} />
             <Route path="/game" component={Game} />
           </div>
-        </Router>
+        </React.Fragment>
+      </Router>
     );
   }
 }
