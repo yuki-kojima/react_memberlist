@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import './App.css';
-import axiosCreate from "./utility/httpClient";
+import axiosCreate from "./utility/axiosCreate";
 import handleResponse from "./utility/handleResponse";
 import Memberlist from './Memberlist';
 import QueryGenerator from './utility/QueryGenerator';
