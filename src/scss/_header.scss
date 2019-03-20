@@ -7,6 +7,16 @@
         justify-content: space-between;
     }
 }
+.pagetitle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .pagetitle__text {
+        display: block;
+        margin-left: 5px;
+        font-size: 22px;
+    }
+}
 
 .nav {
     display: flex;
