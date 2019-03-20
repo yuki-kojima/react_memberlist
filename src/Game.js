@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import axios from "axios";
 import $ from "jquery";
 import { Link } from "react-router-dom";
 import GameBoard from "./GameBoard";
 import './App.css';
+import axiosCreat from "./utility/axiosCreate";
+import handleResponse from './utility/handleResponse';
+import QueryGenerator from './utility/QueryGenerator';
 
 class Game extends Component {
   constructor(props) {
@@ -21,20 +23,12 @@ class Game extends Component {
     };
   }
   componentDidMount() {
-    this.httpClient = axios.create({
-      baseURL: "https://kadou.i.nijibox.net/api",
-      withCredentials: true
-    });
+    this.httpClient = axiosCreat();
 
     this.loadDepartments();
   }
   commonResponseHandling(res) {
-    console.debug(res);
-    if (res.data.code !== "200") {
-      console.error(res.data.data);
-      return Promise.reject("API Error:" + res.data.data.message);
-    }
-    return Promise.resolve(res.data.data);
+    return handleResponse(res);
   }
   loadDepartments() {
     return this.httpClient
@@ -47,12 +41,11 @@ class Game extends Component {
   loadUserInfo(e) {
     const target = e.target;
     const departmentName = target.innerText;
-    const params = {
-      department_id: parseInt(target.getAttribute("data-id"), 10) || null,
-      page: parseInt(target.getAttribute("data-page"), 10) || 1
-    };
+    const params = new QueryGenerator();
+    params.department_id = parseInt(target.getAttribute("data-id"), 10);
+    params.page = 1;
     return this.httpClient
-      .get("/who/search/", { params: params })
+      .get("/who/search/", { params: params.params })
       .then(this.commonResponseHandling)
       .then(result => {
         this.setState({
