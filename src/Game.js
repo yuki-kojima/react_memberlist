@@ -209,9 +209,9 @@ class Game extends Component {
           <h2>部署を選ぶ</h2>
           <div>
             <ul className="radiolist">
-              {this.state.departmentList.map((row, index) => {
+              {this.state.departmentList.map((row) => {
                 return (
-                  <li key={index}>
+                  <li key={row.department_id}>
                     <input
                       type="radio"
                       name="department"
