@@ -2,7 +2,7 @@ class QueryGenerator {
     constructor() {
     this._department_id = null;
     this._query = null;
-    this._page = null;
+    this._page = 1;
     }
 
     set department_id(ID) {
@@ -10,7 +10,7 @@ class QueryGenerator {
     }
 
     set query(query) {
-    this._query = query;
+        this._query = query;
     }
 
     set page(page) {
@@ -18,7 +18,7 @@ class QueryGenerator {
     }
 
     get params() {
-        let params = {};
+        const params = {};
         if (this._department_id !== null && this._department_id !== '') {
             params.department_id = this._department_id;
         }
