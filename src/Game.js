@@ -13,13 +13,14 @@ class Game extends Component {
     this.state = {
       isLogin: false,
       departmentList: [],
+      departmentID: null,
       userList: null,
-      summary: null,
+      totalPage: null,
       departmentName: "",
       pairNum: 0, //ペアになったカードの組数
       cardList: [], //各カードの情報を入れる配列({id:user_id, photo: photo_url})
       flgFirst: true, //クリックしたカードが1枚目かどうかの判定用
-      firstCard: null, //1枚目に引いたカードの番号
+      firstCard: null //1枚目に引いたカードの番号
     };
   }
   componentDidMount() {
@@ -38,22 +39,64 @@ class Game extends Component {
         this.setState({ departmentList: result });
       });
   }
-  loadUserInfo(e) {
-    const target = e.target;
-    const departmentName = target.innerText;
+  getTotalPageNum(departmentID) {
     const params = new QueryGenerator();
-    params.department_id = parseInt(target.getAttribute("data-id"), 10);
-    params.page = 1;
+    params.department_id = departmentID;
     return this.httpClient
       .get("/who/search/", { params: params.params })
       .then(this.commonResponseHandling)
       .then(result => {
-        this.setState({
-          userList: result.item_list,
-          summary: result.summary,
-          departmentName: departmentName
-        });
+        this.setState({ totalPage: result.summary.total_pages });
       });
+  }
+  handleClick(e) {
+    const departmentID = e.target.value;
+    this.setState(
+      {
+        departmentID: departmentID
+      },
+      () => {
+        this.getTotalPageNum(this.state.departmentID);
+      }
+    );
+  }
+  loadUserInfo(pageNum) {
+    const params = new QueryGenerator();
+    params.department_id = this.state.departmentID;
+    params.page = pageNum;
+    return this.httpClient
+      .get("/who/search/", { params: params.params })
+      .then(this.commonResponseHandling)
+      .then(function(result) {
+        return Promise.resolve(result.item_list);
+        });
+  }
+  loadAllUserInfo(requestList) {
+    let tempList;
+    Promise.all(requestList).then(result => {
+      tempList = {...result};
+      console.log(result);
+      console.log(tempList);
+      this.setState({
+        userList: tempList
+      });
+    })
+  }
+  returnRequestList() {
+    const params = new QueryGenerator();
+    const requests = [];
+    let request;
+    for (var i = 1; i <= this.state.totalPage; i++) {
+      params.department_id = this.state.departmentID;
+      params.page = i;
+      request = this.httpClient.get("/who/search/", { params: params.params })
+        .then(this.commonResponseHandling)
+        .then(function (result) {
+          return Promise.resolve(result.item_list);
+        });
+      requests.push(request);
+    }
+    return requests;
   }
 
   // 以下ゲームで使いたい関数
@@ -104,12 +147,19 @@ class Game extends Component {
       pairNum: 0,
       firstCard: null,
       flgFirst: true
-    })
+    });
   }
-
-  startGame(userList) {
+  startGame() {
+    const requests = this.returnRequestList();
+    this.loadAllUserInfo(requests);
+    // let userList = [];
+    // for (var i = 1; i <= this.state.totalPage; i++) {
+    //   this.loadUserInfo(i, userList);
+    //   console.log("ifの中", userList);
+    // }
+    // console.log("userList[i]", userList);
     this.initGameStatus();
-    this.setCardList(userList);
+    this.setCardList(this.state.userList);
   }
 
   // クリック時の関数
@@ -132,9 +182,7 @@ class Game extends Component {
   showBackside($target, speed) {
     const $targetImg = $target.find("img");
     $targetImg.attr("src", "./nblogo.jpg");
-    $targetImg
-      .stop()
-      .animate({ width: "150px", height: "150" }, speed);
+    $targetImg.stop().animate({ width: "150px", height: "150" }, speed);
     $target.stop().animate({ left: "0" }, speed);
   }
   //クリックできないようにカードをロック
@@ -161,10 +209,10 @@ class Game extends Component {
       $firstCard.addClass("is-disabled");
       $secondCard.addClass("is-disabled");
       pairNum++;
-      if(pairNum === total / 2) {
+      if (pairNum === total / 2) {
         setTimeout(() => {
           alert("コンプリート！！！");
-        }, 1000)
+        }, 1000);
       }
       this.setState({
         pairNum: pairNum
@@ -173,11 +221,11 @@ class Game extends Component {
       setTimeout(() => {
         this.changeCard($secondCard, this.showBackside);
         this.changeCard($firstCard, this.showBackside);
-      }, 1000)
+      }, 1000);
     }
     this.setState({
       flgFirst: true
-    })
+    });
     setTimeout(() => {
       this.unlockAllCards();
     }, speed * 2 + 1000);
@@ -194,7 +242,7 @@ class Game extends Component {
       this.setState({
         firstCard: $target,
         flgFirst: false
-      })
+      });
     } else {
       this.lockAllCard();
       this.judgeCards($target, speed);
@@ -209,15 +257,14 @@ class Game extends Component {
           <h2>部署を選ぶ</h2>
           <div>
             <ul className="radiolist">
-              {this.state.departmentList.map((row) => {
+              {this.state.departmentList.map(row => {
                 return (
                   <li key={row.department_id}>
                     <input
                       type="radio"
                       name="department"
-                      value=""
-                      onClick={e => this.loadUserInfo(e)}
-                      data-id={row.department_id}
+                      value={row.department_id}
+                      onClick={e => this.handleClick(e)}
                     />
                     {row.department_name}
                   </li>
@@ -226,7 +273,7 @@ class Game extends Component {
             </ul>
             <div className="l-btn-start">
               <button
-                onClick={e => this.startGame(this.state.userList)}
+                onClick={e => this.startGame()}
                 type="button"
                 className="btn-start"
               >
@@ -238,9 +285,7 @@ class Game extends Component {
         <div>
           <GameBoard
             cardList={this.state.cardList}
-            handleCardClick={(e, flgFirst) =>
-              this.handleCardClick(e, flgFirst)
-            }
+            handleCardClick={(e, flgFirst) => this.handleCardClick(e, flgFirst)}
             flgFirst={this.props.flgFirst}
           />
         </div>
