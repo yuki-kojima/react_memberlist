@@ -6,7 +6,7 @@ class QueryGenerator {
     }
 
     set department_id(ID) {
-        this._department_id = parseInt(ID, 10);
+        this._department_id = ID;
     }
 
     set query(query) {
@@ -14,21 +14,25 @@ class QueryGenerator {
     }
 
     set page(page) {
-        this._page = parseInt(page, 10);
+        this._page = page;
     }
 
-    get params() {
-        const params = {};
+    get queryString() {
+        const params = [];
+        let paramString = "";
+        let queryString = '';
         if (this._department_id !== null && this._department_id !== '') {
-            params.department_id = this._department_id;
+            params.push(`department_id=${this._department_id}`);
         }
         if (this._query !== null && this._query !== '') {
-          params.query = this._query;
+            params.push(`query=${this._query}`);
         }
         if (this._page !== null) {
-            params.page = this._page;
+            params.push(`page=${this._page}`);
         }
-        return params;
+        paramString = params.join('&');
+        queryString = `?${paramString}`;
+        return queryString;
     }
 }
 
