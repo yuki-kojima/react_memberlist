@@ -41,9 +41,9 @@ class Game extends Component {
   }
   getTotalPageNum(departmentID) {
     const params = new QueryGenerator();
-    params.department_id = departmentID;
+    params.department_id = this.state.departmentID;
     return this.httpClient
-      .get("/who/search/", { params: params.params })
+      .get(`/who/search/${params.queryString}`)
       .then(this.commonResponseHandling)
       .then(result => {
         this.setState({ totalPage: result.summary.total_pages });
@@ -60,26 +60,15 @@ class Game extends Component {
       }
     );
   }
-  loadUserInfo(pageNum) {
-    const params = new QueryGenerator();
-    params.department_id = this.state.departmentID;
-    params.page = pageNum;
-    return this.httpClient
-      .get("/who/search/", { params: params.params })
-      .then(this.commonResponseHandling)
-      .then(function(result) {
-        return Promise.resolve(result.item_list);
-        });
-  }
   loadAllUserInfo(requestList) {
-    let tempList;
+    let userList = [];
     Promise.all(requestList).then(result => {
-      tempList = {...result};
-      console.log(result);
-      console.log(tempList);
+      for(let i of result) {
+        userList = userList.concat(i);
+      }
       this.setState({
-        userList: tempList
-      });
+        userList: userList
+      }, e => this.setCardList(this.state.userList));
     })
   }
   returnRequestList() {
@@ -89,7 +78,7 @@ class Game extends Component {
     for (var i = 1; i <= this.state.totalPage; i++) {
       params.department_id = this.state.departmentID;
       params.page = i;
-      request = this.httpClient.get("/who/search/", { params: params.params })
+      request = this.httpClient.get(`/who/search/${params.queryString}`)
         .then(this.commonResponseHandling)
         .then(function (result) {
           return Promise.resolve(result.item_list);
@@ -152,14 +141,7 @@ class Game extends Component {
   startGame() {
     const requests = this.returnRequestList();
     this.loadAllUserInfo(requests);
-    // let userList = [];
-    // for (var i = 1; i <= this.state.totalPage; i++) {
-    //   this.loadUserInfo(i, userList);
-    //   console.log("ifの中", userList);
-    // }
-    // console.log("userList[i]", userList);
     this.initGameStatus();
-    this.setCardList(this.state.userList);
   }
 
   // クリック時の関数
