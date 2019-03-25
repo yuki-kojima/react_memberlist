@@ -16,6 +16,8 @@ class Search extends Component {
       userList: null,
       requestedDepartmentID: null,
       requestedQuery: '',
+      selectedDepartmentID: '',
+      selectedQuery: '',
       dataSummary: null
     };
   }
@@ -34,31 +36,43 @@ class Search extends Component {
         this.setState({ departmentList: result });
       });
   }
-  loadUserInfo(params) {
+  loadUserInfo(query) {
     return this.httpClient
-      .get("/who/search/", { params: params })
+      .get(`/who/search/${query}`)
       .then(this.commonResponseHandling)
       .then(result => {
         this.setState({
           userList: result.item_list,
-          requestedDepartmentID: params.department_id,
-          requestedQuery: params.query,
           dataSummary: result.summary
         });
       });
   }
+  onChangeDepartment(e) {
+    const departmentID = e.target.value;
+    this.setState({
+      selectedDepartmentID: departmentID
+    });
+  }
+  onInputText(e) {
+    const query = e.target.value;
+    this.setState({
+      selectedQuery: query
+    });
+  }
   onClickSearh() {
-    const departmentID = document.getElementById('js-departmentID').value;
-    const query = document.getElementById('js-freeword').value;
     const params = new QueryGenerator();
 
-    if ((departmentID === '') && (query === '')) {
+    if ((this.state.selectedDepartmentID === '') && (this.state.selectedQuery === '')) {
         alert('条件を指定してください');
         return;
     }
-    params.department_id = departmentID;
-    params.query = query;
-    this.loadUserInfo(params.params);
+    params.department_id = this.state.selectedDepartmentID;
+    params.query = this.state.selectedQuery;
+    this.loadUserInfo(params.queryString);
+    this.setState({
+      requestedDepartmentID: this.state.selectedDepartmentID,
+      requestedQuery: this.state.selectedQuery
+    })
   }
   onClickPager(e) {
     const target = e.target;
@@ -69,7 +83,7 @@ class Search extends Component {
     params.department_id = departmentID;
     params.query = query;
     params.page = page;
-    this.loadUserInfo(params.params);
+    this.loadUserInfo(params.queryString);
   }
   render() {
     return (
@@ -78,13 +92,13 @@ class Search extends Component {
         <div>
           <div>
             <h2>部署から検索する</h2>
-            <SelectDepartment departmentList={this.state.departmentList}/>
+            <SelectDepartment departmentList={this.state.departmentList} onChangeDepartment={e => this.onChangeDepartment(e)}/>
           </div>
           <div>
             <h2>フリーワードで検索する</h2>
             <div className="l-freeword">
               <div className="freeword">
-                <input id="js-freeword" className="freeword__input" type="text" placeholder="キーワードを入れてください"/>
+                <input id="js-freeword" className="freeword__input" type="text" placeholder="キーワードを入れてください" onChange={e => this.onInputText(e)}/>
                 <button
                   onClick={e => this.onClickSearh(e)}
                   type="button"
