@@ -12,7 +12,7 @@
     "react-scripts": "2.1.3",
     "ress": "^1.2.2"
   },
-  "homepage": "http://yuki-kojima.github.io/react_memberlist",
+  "homepage": "https://memberlist-d4485.firebaseapp.com/",
   "scripts": {
     "build-css": "node-sass-chokidar src/scss -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/scss -o src/ --watch --recursive",
