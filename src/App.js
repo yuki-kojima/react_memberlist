@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import axiosCreate from "./utility/axiosCreate";
 import handleResponse from "./utility/handleResponse";
 import 'ress';
