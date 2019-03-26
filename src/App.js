@@ -9,7 +9,6 @@ import Top from "./Top";
 import Search from "./Search";
 import MemberInfo from "./MemberInfo";
 import Game from "./Game";
-import Login from './loigin';
 
 
 class App extends Component {
@@ -58,8 +57,7 @@ class App extends Component {
         <React.Fragment>
           <Header />
           <div className="wrap">
-            <Route exact path="/" component={Login} />
-            <Route exact path="/top" component={Top} />
+            <Route exact path="/" component={Top} />
             <Route path="/search" component={Search} />
             <Route path="/user/:id" component={MemberInfo} />
             <Route path="/game" component={Game} />
