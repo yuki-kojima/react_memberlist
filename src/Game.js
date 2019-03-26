@@ -6,6 +6,7 @@ import './App.css';
 import axiosCreat from "./utility/axiosCreate";
 import handleResponse from './utility/handleResponse';
 import QueryGenerator from './utility/QueryGenerator';
+import GameModal from './GameModal';
 
 class Game extends Component {
   constructor(props) {
@@ -20,7 +21,8 @@ class Game extends Component {
       pairNum: 0, //ペアになったカードの組数
       cardList: [], //各カードの情報を入れる配列({id:user_id, photo: photo_url})
       flgFirst: true, //クリックしたカードが1枚目かどうかの判定用
-      firstCard: null //1枚目に引いたカードの番号
+      firstCard: null, //1枚目に引いたカードの番号
+      isCleared: false
     };
   }
   componentDidMount() {
@@ -49,7 +51,7 @@ class Game extends Component {
         this.setState({ totalPage: result.summary.total_pages });
       });
   }
-  handleClick(e) {
+  onChangeDepartment(e) {
     const departmentID = e.target.value;
     this.setState(
       {
@@ -135,13 +137,30 @@ class Game extends Component {
     this.setState({
       pairNum: 0,
       firstCard: null,
-      flgFirst: true
+      flgFirst: true,
+      isCleared: false
     });
   }
+
   startGame() {
     const requests = this.returnRequestList();
-    this.loadAllUserInfo(requests);
     this.initGameStatus();
+    this.loadAllUserInfo(requests);
+  }
+
+  restartGame() {
+    this.initGameStatus();
+    this.setState({
+      cardList: []
+    }, () => this.setCardList(this.state.userList));
+  }
+
+  resetGame() {
+    this.initGameStatus();
+    this.setState({
+      departmentID: null,
+      userList: null
+    })
   }
 
   // クリック時の関数
@@ -192,8 +211,10 @@ class Game extends Component {
       $secondCard.addClass("is-disabled");
       pairNum++;
       if (pairNum === total / 2) {
-        setTimeout(() => {
-          alert("コンプリート！！！");
+        setTimeout(()=> {
+          this.setState({
+            isCleared: true
+          });
         }, 1000);
       }
       this.setState({
@@ -246,7 +267,10 @@ class Game extends Component {
                       type="radio"
                       name="department"
                       value={row.department_id}
-                      onClick={e => this.handleClick(e)}
+                      checked={
+                        this.state.departmentID === row.department_id
+                      }
+                      onChange={e => this.onChangeDepartment(e)}
                     />
                     {row.department_name}
                   </li>
@@ -267,7 +291,9 @@ class Game extends Component {
         <div>
           <GameBoard
             cardList={this.state.cardList}
-            handleCardClick={(e, flgFirst) => this.handleCardClick(e, flgFirst)}
+            handleCardClick={(e, flgFirst) =>
+              this.handleCardClick(e, flgFirst)
+            }
             flgFirst={this.props.flgFirst}
           />
         </div>
@@ -276,6 +302,12 @@ class Game extends Component {
             <Link to="/">トップへ戻る</Link>
           </div>
         </div>
+        {this.state.isCleared && (
+          <GameModal
+            restartGame={e => this.restartGame(e)}
+            resetGame={e => this.resetGame(e)}
+          />
+        )}
       </div>
     );
   }
