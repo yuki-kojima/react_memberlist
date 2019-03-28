@@ -86,9 +86,8 @@ hr {
 input, select {
   vertical-align: middle; }
 
-.wrap {
-  margin: 0 auto;
-  padding: 0 50px; }
+.wrapper {
+  padding-bottom: 50px; }
 
 html {
   height: 100%;
@@ -96,6 +95,7 @@ html {
 
 body {
   min-height: 100%;
+  background-color: #fff8f9;
   color: #4b4041;
   font-size: 1.6rem; }
 
@@ -148,9 +148,11 @@ button {
 
 #header {
   width: 100%;
+  background-color: #fff;
   border-bottom: solid 1px #ccc; }
   #header .header__inner {
-    padding: 15px 50px;
+    width: 1050px;
+    padding: 10px 10px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -172,31 +174,13 @@ button {
   .nav > li:not(:first-child) {
     margin-left: 20px; }
 
-.menu {
-  width: 500px;
-  margin: 7rem auto 0 auto; }
-  .menu h2.menu__title {
-    text-align: center;
-    font-size: 2.5rem; }
-  .menu .menu__list {
-    display: flex;
-    justify-content: center;
-    margin-top: 5rem; }
-    .menu .menu__list > li {
-      flex: 1;
-      text-align: center; }
-      .menu .menu__list > li .menu__item {
-        display: inline-block;
-        background-color: #fff;
-        border: solid 1px #ccc;
-        border-radius: 3px;
-        padding: .5rem 5rem;
-        text-decoration: none; }
-
 .inputwrap {
-  display: flex;
-  padding: 10px 50px;
   background-color: #b2a9a9; }
+  .inputwrap .inputwrap-inner {
+    display: flex;
+    width: 1050px;
+    padding: 10px;
+    margin: 0 auto; }
 
 .departmentlist {
   display: flex;
@@ -208,12 +192,12 @@ button {
     text-align: center;
     position: relative;
     border: 1px solid #bbbbbb;
-    border-radius: 2px;
+    border-radius: 3px;
     background: #ffffff; }
     .departmentlist .departmentlist-select::before {
       position: absolute;
-      top: 0.8em;
-      right: 0.9em;
+      top: 50%;
+      right: 10px;
       width: 0;
       height: 0;
       padding: 0;
@@ -221,10 +205,10 @@ button {
       border-left: 6px solid transparent;
       border-right: 6px solid transparent;
       border-top: 6px solid #666666;
-      pointer-events: none; }
+      pointer-events: none;
+      transform: translateY(-50%); }
     .departmentlist .departmentlist-select > select {
       width: 100%;
-      padding-right: 1em;
       cursor: pointer;
       text-indent: 0.01px;
       text-overflow: ellipsis;
@@ -235,7 +219,7 @@ button {
       box-shadow: none;
       -webkit-appearance: none;
       appearance: none;
-      padding: 8px 38px 8px 8px;
+      padding: 5px 38px 5px 8px;
       color: #4b4041; }
       .departmentlist .departmentlist-select > select::-ms-expand {
         display: none; }
@@ -249,6 +233,7 @@ button {
   .freeword .freeword__input {
     width: 300px;
     height: 100%;
+    padding: 5px;
     margin-left: 10px;
     background-color: #fff;
     flex-shrink: 0; }
@@ -258,42 +243,51 @@ button {
 
 .l-memberlist {
   display: flex;
+  width: 1050px;
+  min-height: 600px;
+  align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin-top: 4rem; }
+  margin: 0 auto; }
   .l-memberlist > li {
     display: flex;
     justify-content: center;
     width: 190px;
-    margin: 0 1rem 5rem; }
+    margin: 0 10px 50px; }
 
-.result-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.result {
   width: 100%;
-  min-height: 300px; }
-
-.result-message {
-  font-size: 2rem;
-  font-weight: bold; }
+  margin-top: 50px; }
+  .result .result-message {
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    .result .result-message .result-message-text {
+      font-size: 2rem;
+      font-weight: bold; }
 
 .memberlist {
   display: block;
   width: 190px;
-  padding: .5rem;
-  background-color: #fffacd;
-  border-radius: 3px;
+  padding: 20px 10px;
+  background-color: #fff;
+  border: solid 1px #ccc;
+  border-radius: 15px;
   text-align: center; }
-  .memberlist .memberlist__img {
-    width: 170px;
-    height: 170px;
+  .memberlist .memberlist-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 15px;
     margin: 0 auto;
     text-align: center; }
-  .memberlist .memberlist__name {
+    .memberlist .memberlist-img > img {
+      border-radius: 5px; }
+  .memberlist .memberlist-name {
+    margin-top: 10px;
     text-align: center;
-    font-size: 2rem;
-    font-weight: bold; }
+    font-size: 18px; }
 
 .pager {
   display: flex;
