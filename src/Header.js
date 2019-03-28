@@ -8,7 +8,7 @@ const Header = () => {
                 <div className="header__inner">
                     <h1 className="pagetitle">
                         <img src={logo} width="45" heigth="45" alt="NIJIBOX"></img>
-                        <span className="pagetitle__text">ニジボックス社員名簿</span>
+                        <span className="pagetitle__text">NIJIBOX社員名簿</span>
                     </h1>
                     <nav className="header__nav">
                         <ul className="nav">

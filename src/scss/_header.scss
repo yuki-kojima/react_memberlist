@@ -1,7 +1,8 @@
 #header {
-    padding: 0 15px;
+    width: 100%;
+    border-bottom: solid 1px #ccc;
     .header__inner {
-        height: 60px;
+        padding: 15px 50px;
         margin: 0 auto;
         display: flex;
         align-items: center;
