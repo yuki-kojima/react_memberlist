@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 
 const GameModal = (props) => {
-    console.log(props);
     return (
     <div className="modal">
         <div className="modal__overlay">
