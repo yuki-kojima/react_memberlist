@@ -11,14 +11,17 @@ class Memberlist extends Component {
       nextPage: null,
       prevPage: null,
       flgPrev: false,
-      flgNext: false
-    }
+      flgNext: false,
+      message: "検索してください"
+    };
   }
   componentWillReceiveProps(props) {
+    this.setMessage(props);
     this.setPageState(props);
+    console.log(props);
   }
   setPageState(props) {
-    if(props.userList === null || props.userList.length === 0) {
+    if (props.userList === null || props.userList.length === 0) {
       return;
     }
     const currentPage = props.dataSummary.current_page;
@@ -35,12 +38,17 @@ class Memberlist extends Component {
     } else {
       prevPage = null;
     }
-    this.setState({
-      currentPage: currentPage,
-      totalPages: totalPages,
-      nextPage: nextPage,
-      prevPage: prevPage
-    }, () => {this.setPageFlg();})
+    this.setState(
+      {
+        currentPage: currentPage,
+        totalPages: totalPages,
+        nextPage: nextPage,
+        prevPage: prevPage
+      },
+      () => {
+        this.setPageFlg();
+      }
+    );
   }
   setPageFlg() {
     let flgPrev = true;
@@ -48,7 +56,10 @@ class Memberlist extends Component {
     if (this.state.currentPage === 1) {
       flgPrev = false;
     }
-    if (this.state.currentPage === this.state.totalPages || this.state.totalPages === 0) {
+    if (
+      this.state.currentPage === this.state.totalPages ||
+      this.state.totalPages === 0
+    ) {
       flgNext = false;
     }
     this.setState({
@@ -56,20 +67,39 @@ class Memberlist extends Component {
       flgNext: flgNext
     });
   }
-  renderUserList(userList) {
+  setMessage(props) {
+    var userList = props.userList;
     if (userList === null) {
-      return <p className="result-message">検索してください</p>;
-    } else if(userList.length !== 0) {
-      return (
-        <div>
-          <h2>社員一覧</h2>
+      this.setState({
+        message: "検索してください"
+      });
+    } else if (userList.length === 0) {
+      console.log("0");
+      this.setState({
+        message: "該当するメンバーがいませんでした"
+      });
+    }
+  }
+
+  render() {
+    const userList = this.props.userList;
+    return (
+      <div className="result-container">
+        {userList === null || userList.length === 0 ? (
+          <p className="result-message">{this.state.message}</p>
+        ) : (
           <div>
             <ul className="l-memberlist">
-              {userList.map((item) => {
+              {userList.map(item => {
                 return (
                   <li key={item.user_id}>
                     <Link to={"/user/" + item.user_id} className="memberlist">
-                      <div className="memberlist__img"><img src={item.photo_url} alt={item.user_name + 'の写真'}></img></div>
+                      <div className="memberlist__img">
+                        <img
+                          src={item.photo_url}
+                          alt={item.user_name + "の写真"}
+                        />
+                      </div>
                       <div className="memberlist__name">{item.user_name}</div>
                     </Link>
                   </li>
@@ -77,22 +107,37 @@ class Memberlist extends Component {
               })}
             </ul>
             <div className="pager">
-              {this.state.flgPrev && <button type="button" className="btn-pager" onClick={e => this.props.onClickPager(e)} data-page={this.state.prevPage} data-id={this.props.departmentID} data-query={this.props.query}> 前へ</button>}
-              <div className="pager__page">{this.state.currentPage}/{this.state.totalPages}ページ</div>
-              {this.state.flgNext && <button type="button" className="btn-pager" onClick={e => this.props.onClickPager(e)} data-page={this.state.nextPage} data-id={this.props.departmentID} data-query={this.props.query}>次へ</button>}
+              {this.state.flgPrev && (
+                <button
+                  type="button"
+                  className="btn-pager"
+                  onClick={e => this.props.onClickPager(e)}
+                  data-page={this.state.prevPage}
+                  data-id={this.props.departmentID}
+                  data-query={this.props.query}
+                >
+                  {" "}
+                  前へ
+                </button>
+              )}
+              <div className="pager__page">
+                {this.state.currentPage}/{this.state.totalPages}ページ
+              </div>
+              {this.state.flgNext && (
+                <button
+                  type="button"
+                  className="btn-pager"
+                  onClick={e => this.props.onClickPager(e)}
+                  data-page={this.state.nextPage}
+                  data-id={this.props.departmentID}
+                  data-query={this.props.query}
+                >
+                  次へ
+                </button>
+              )}
             </div>
           </div>
-        </div>
-      );
-    } else {
-      return <p className="result-message">該当するメンバーがいませんでした</p>;
-    }
-  }
-
-  render() {
-    return (
-      <div className="result-container">
-        {this.renderUserList(this.props.userList)}
+        )}
       </div>
     );
   }
