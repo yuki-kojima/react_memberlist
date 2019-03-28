@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import './App.css';
 import axiosCreate from "./utility/axiosCreate";
 import handleResponse from "./utility/handleResponse";
 import Memberlist from './Memberlist';
 import QueryGenerator from './utility/QueryGenerator';
-import SelectDepartment from './SelectDepartment';
+import SelectDepartment from './input';
 
 class Search extends Component {
   constructor(props) {
@@ -88,28 +87,12 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <h1>社員検索</h1>
-        <div>
-          <div>
-            <h2>部署から検索する</h2>
-            <SelectDepartment departmentList={this.state.departmentList} onChangeDepartment={e => this.onChangeDepartment(e)}/>
-          </div>
-          <div>
-            <h2>フリーワードで検索する</h2>
-            <div className="l-freeword">
-              <div className="freeword">
-                <input id="js-freeword" className="freeword__input" type="text" placeholder="キーワードを入れてください" onChange={e => this.onInputText(e)}/>
-                <button
-                  onClick={e => this.onClickSearh(e)}
-                  type="button"
-                  className="freeword__btn"
-                >
-                  検索する
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+          <SelectDepartment
+            departmentList={this.state.departmentList}
+            onChangeDepartment={e => this.onChangeDepartment(e)}
+            onChangeText={e => this.onInputText(e)}
+            onClick={e => this.onClickSearh(e)}
+          />
         <div>
           <Memberlist
             userList={this.state.userList}
@@ -118,11 +101,6 @@ class Search extends Component {
             dataSummary={this.state.dataSummary}
             onClickPager={e => this.onClickPager(e)}
           />
-        </div>
-        <div className="l-pager">
-          <div className="pager pager--search">
-            <Link to="/">トップへ戻る</Link>
-          </div>
         </div>
       </div>
     );
