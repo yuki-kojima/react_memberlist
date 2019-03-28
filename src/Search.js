@@ -4,7 +4,7 @@ import axiosCreate from "./utility/axiosCreate";
 import handleResponse from "./utility/handleResponse";
 import Memberlist from './Memberlist';
 import QueryGenerator from './utility/QueryGenerator';
-import SelectDepartment from './input';
+import Input from './Input';
 
 class Search extends Component {
   constructor(props) {
@@ -87,7 +87,7 @@ class Search extends Component {
   render() {
     return (
       <div>
-          <SelectDepartment
+          <Input
             departmentList={this.state.departmentList}
             onChangeDepartment={e => this.onChangeDepartment(e)}
             onChangeText={e => this.onInputText(e)}

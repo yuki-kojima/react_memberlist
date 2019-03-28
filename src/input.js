@@ -1,10 +1,10 @@
 import React from "react";
 
-const SelectDepartment = (props) => {
+const Input = (props) => {
     return (
       <div className="inputwrap">
         <div className="departmentlist">
-          <label className="departmentlist-label" for="department">
+          <label className="departmentlist-label" htmlFor="department">
             部署
           </label>
           <div className="departmentlist-select">
@@ -28,7 +28,7 @@ const SelectDepartment = (props) => {
         </div>
         <div className="l-freeword">
           <div className="freeword">
-            <label className="freeword-label" for="freeword">
+            <label className="freeword-label" htmlFor="freeword">
               キーワード
             </label>
             <input
@@ -52,4 +52,4 @@ const SelectDepartment = (props) => {
     );
 };
 
-export default SelectDepartment;
+export default Input;
