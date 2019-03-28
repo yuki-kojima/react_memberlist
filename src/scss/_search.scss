@@ -13,12 +13,12 @@
         text-align: center;
         position: relative;
         border: 1px solid #bbbbbb;
-        border-radius: 2px;
+        border-radius: 3px;
         background: #ffffff;
         &::before {
             position: absolute;
-            top: 0.8em;
-            right: 0.9em;
+            top: 50%;
+            right: 10px;
             width: 0;
             height: 0;
             padding: 0;
@@ -27,10 +27,10 @@
             border-right: 6px solid transparent;
             border-top: 6px solid #666666;
             pointer-events: none;
+            transform: translateY(-50%);
         }
         > select {
             width: 100%;
-            padding-right: 1em;
             cursor: pointer;
             text-indent: 0.01px;
             text-overflow: ellipsis;
@@ -41,7 +41,7 @@
             box-shadow: none;
             -webkit-appearance: none;
             appearance: none;
-            padding: 8px 38px 8px 8px;
+            padding: 5px 38px 5px 8px;
             color: #4b4041;
             &::-ms-expand {
             display: none;
@@ -60,6 +60,7 @@
     .freeword__input {
         width: 300px;
         height: 100%;
+        padding: 5px;
         margin-left: 10px;
         background-color: #fff;
         flex-shrink: 0;
