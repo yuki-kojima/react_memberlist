@@ -86,7 +86,7 @@ class Search extends Component {
   }
   render() {
     return (
-      <div>
+      <div class="wrapper">
           <Input
             departmentList={this.state.departmentList}
             onChangeDepartment={e => this.onChangeDepartment(e)}

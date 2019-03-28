@@ -1,7 +1,11 @@
 .inputwrap {
-    display:  flex;
-    padding: 10px 50px;
     background-color: #b2a9a9;
+    .inputwrap-inner {
+        display:  flex;
+        width: 1050px;
+        padding: 10px;
+        margin: 0 auto;
+    }
 }
 .departmentlist {
     display: flex;
