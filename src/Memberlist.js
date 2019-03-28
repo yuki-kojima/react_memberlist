@@ -84,23 +84,25 @@ class Memberlist extends Component {
   render() {
     const userList = this.props.userList;
     return (
-      <div className="result-container">
+      <div className="result">
         {userList === null || userList.length === 0 ? (
-          <p className="result-message">{this.state.message}</p>
+          <div className="result-message">
+            <p className="result-message-text">{this.state.message}</p>
+          </div>
         ) : (
-          <div>
+            <React.Fragment>
             <ul className="l-memberlist">
               {userList.map(item => {
                 return (
                   <li key={item.user_id}>
                     <Link to={"/user/" + item.user_id} className="memberlist">
-                      <div className="memberlist__img">
+                      <div className="memberlist-img">
                         <img
                           src={item.photo_url}
                           alt={item.user_name + "の写真"}
                         />
                       </div>
-                      <div className="memberlist__name">{item.user_name}</div>
+                      <div className="memberlist-name">{item.user_name}</div>
                     </Link>
                   </li>
                 );
@@ -136,7 +138,7 @@ class Memberlist extends Component {
                 </button>
               )}
             </div>
-          </div>
+          </React.Fragment>
         )}
       </div>
     );
