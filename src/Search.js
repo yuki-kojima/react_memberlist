@@ -13,7 +13,7 @@ class Search extends Component {
       isLogin: false,
       departmentList: [],
       userList: null,
-      requestedDepartmentID: null,
+      requestedDepartmentID: '',
       requestedQuery: '',
       selectedDepartmentID: '',
       selectedQuery: '',
@@ -62,7 +62,7 @@ class Search extends Component {
     const params = new QueryGenerator();
 
     if ((this.state.selectedDepartmentID === '') && (this.state.selectedQuery === '')) {
-        alert('条件を指定してください');
+      alert('Sorry...\n条件無しの検索はできません。\n部署またはキーワードを指定して検索してください。');
         return;
     }
     params.department_id = this.state.selectedDepartmentID;
