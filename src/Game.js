@@ -22,7 +22,8 @@ class Game extends Component {
       cardList: [], //各カードの情報を入れる配列({id:user_id, photo: photo_url})
       flgFirst: true, //クリックしたカードが1枚目かどうかの判定用
       firstCard: null, //1枚目に引いたカードの番号
-      isCleared: false
+      isCleared: false,
+      isPlaying: false
     };
   }
   componentDidMount() {
@@ -143,6 +144,9 @@ class Game extends Component {
   }
 
   startGame() {
+    this.setState({
+      isPlaying: true
+    });
     const requests = this.returnRequestList();
     this.initGameStatus();
     this.loadAllUserInfo(requests);
@@ -151,7 +155,8 @@ class Game extends Component {
   restartGame() {
     this.initGameStatus();
     this.setState({
-      cardList: []
+      cardList: [],
+      isPlaying: true
     }, () => this.setCardList(this.state.userList));
   }
 
@@ -159,7 +164,9 @@ class Game extends Component {
     this.initGameStatus();
     this.setState({
       departmentID: null,
-      userList: null
+      userList: null,
+      cardList: [],
+      isPlaying: false
     })
   }
 
@@ -213,7 +220,8 @@ class Game extends Component {
       if (pairNum === total / 2) {
         setTimeout(()=> {
           this.setState({
-            isCleared: true
+            isCleared: true,
+            isPlaying: false
           });
         }, 1000);
       }
@@ -278,13 +286,20 @@ class Game extends Component {
               })}
             </ul>
             <div className="l-btn-start">
-              <button
-                onClick={e => this.startGame()}
+              {this.state.isPlaying === true ? <button
+                onClick={() => this.resetGame()}
                 type="button"
                 className="btn-start"
               >
-                遊ぶ！
+                ゲームをやめる
               </button>
+                : <button
+                  onClick={e => this.startGame()}
+                  type="button"
+                  className="btn-start"
+                >
+                  遊ぶ！
+              </button>}
             </div>
           </div>
         </div>
