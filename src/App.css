@@ -87,20 +87,23 @@ input, select {
   vertical-align: middle; }
 
 .wrap {
-  width: 980px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  padding: 0 50px; }
 
 html {
+  height: 100%;
   font-size: 10px; }
 
 body {
+  min-height: 100%;
+  color: #4b4041;
   font-size: 1.6rem; }
 
 a {
   text-decoration: none;
-  color: #000; }
+  color: #4b4041; }
   a:hover, a :visited {
-    color: #000; }
+    color: #4b4041; }
   a:hover {
     opacity: .6; }
 
@@ -134,11 +137,10 @@ h2 {
 
 button {
   display: inline-block;
-  border: solid 1px #ccc;
   border-radius: 3px;
-  padding: .5rem .5rem;
+  padding: 5px 10px;
   text-decoration: none;
-  background-color: #6495ed;
+  background-color: #564546;
   color: #fff;
   font-weight: bold; }
   button:hover {
@@ -191,35 +193,64 @@ button {
         padding: .5rem 5rem;
         text-decoration: none; }
 
-.l-departmentlist {
-  margin-top: 3rem; }
+.inputwrap {
+  display: flex;
+  padding: 10px 50px;
+  background-color: #b2a9a9; }
 
 .departmentlist {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 600px;
-  margin: 0 auto; }
-  .departmentlist > li {
-    flex-shrink: 0;
-    width: 33%;
-    padding: .5rem; }
-    .departmentlist > li .departmentlist__item {
-      width: 100%; }
+  align-items: center; }
+  .departmentlist .departmentlist-select {
+    overflow: hidden;
+    width: 200px;
+    margin-left: 10px;
+    text-align: center;
+    position: relative;
+    border: 1px solid #bbbbbb;
+    border-radius: 2px;
+    background: #ffffff; }
+    .departmentlist .departmentlist-select::before {
+      position: absolute;
+      top: 0.8em;
+      right: 0.9em;
+      width: 0;
+      height: 0;
+      padding: 0;
+      content: '';
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #666666;
+      pointer-events: none; }
+    .departmentlist .departmentlist-select > select {
+      width: 100%;
+      padding-right: 1em;
+      cursor: pointer;
+      text-indent: 0.01px;
+      text-overflow: ellipsis;
+      border: none;
+      outline: none;
+      background: transparent;
+      background-image: none;
+      box-shadow: none;
+      -webkit-appearance: none;
+      appearance: none;
+      padding: 8px 38px 8px 8px;
+      color: #4b4041; }
+      .departmentlist .departmentlist-select > select::-ms-expand {
+        display: none; }
 
 .l-freeword {
-  margin-top: 3rem; }
+  margin-left: 20px; }
 
 .freeword {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 600px;
-  margin: 0 auto; }
+  align-items: center; }
   .freeword .freeword__input {
     width: 300px;
     height: 100%;
+    margin-left: 10px;
+    background-color: #fff;
     flex-shrink: 0; }
   .freeword .freeword__btn {
     flex-shrink: 0;

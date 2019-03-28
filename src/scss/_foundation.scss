@@ -1,15 +1,18 @@
 html {
+    height: 100%;
     font-size: 10px;
 }
 
 body {
+    min-height: 100%;
+    color: #4b4041;
     font-size: 1.6rem;
 }
 a {
     text-decoration: none;
-    color: #000;
+    color: #4b4041;
     &:hover, :visited {
-        color: #000;
+        color: #4b4041;
     }
     &:hover {
         opacity: .6;

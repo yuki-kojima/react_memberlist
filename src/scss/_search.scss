@@ -1,37 +1,67 @@
-.l-departmentlist {
-    margin-top: 3rem;
+.inputwrap {
+    display:  flex;
+    padding: 10px 50px;
+    background-color: #b2a9a9;
 }
-
 .departmentlist {
     display: flex;
-    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    width: 600px;
-    margin: 0 auto;
-    > li {
-        flex-shrink: 0;
-        width: 33%;
-        padding: .5rem;
-        .departmentlist__item {
+    .departmentlist-select {
+        overflow: hidden;
+        width: 200px;
+        margin-left: 10px;
+        text-align: center;
+        position: relative;
+        border: 1px solid #bbbbbb;
+        border-radius: 2px;
+        background: #ffffff;
+        &::before {
+            position: absolute;
+            top: 0.8em;
+            right: 0.9em;
+            width: 0;
+            height: 0;
+            padding: 0;
+            content: '';
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #666666;
+            pointer-events: none;
+        }
+        > select {
             width: 100%;
+            padding-right: 1em;
+            cursor: pointer;
+            text-indent: 0.01px;
+            text-overflow: ellipsis;
+            border: none;
+            outline: none;
+            background: transparent;
+            background-image: none;
+            box-shadow: none;
+            -webkit-appearance: none;
+            appearance: none;
+            padding: 8px 38px 8px 8px;
+            color: #4b4041;
+            &::-ms-expand {
+            display: none;
+            }
         }
     }
 }
 
 .l-freeword {
-    margin-top: 3rem;
+    margin-left: 20px;
 }
 
 .freeword {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 600px;
-    margin: 0 auto;
     .freeword__input {
         width: 300px;
         height: 100%;
+        margin-left: 10px;
+        background-color: #fff;
         flex-shrink: 0;
     }
     .freeword__btn {
