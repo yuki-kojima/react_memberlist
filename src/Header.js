@@ -12,9 +12,8 @@ const Header = () => {
                     </h1>
                     <nav className="header__nav">
                         <ul className="nav">
-                            <li><div><Link to="/Search">社員名簿</Link></div></li>
+                            <li><div><Link to="/">社員名簿</Link></div></li>
                             <li><div><Link to="/Game">神経衰弱</Link></div></li>
-                            <li><div><Link to="/">トップ</Link></div></li>
                         </ul>
                     </nav>
                 </div>

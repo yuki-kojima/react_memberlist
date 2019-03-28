@@ -5,7 +5,6 @@ import handleResponse from "./utility/handleResponse";
 import 'ress';
 import './App.css';
 import Header from "./Header";
-import Top from "./Top";
 import Search from "./Search";
 import MemberInfo from "./MemberInfo";
 import Game from "./Game";
@@ -56,12 +55,9 @@ class App extends Component {
       <Router basename={process.env.PUBLIC_URL}>
         <React.Fragment>
           <Header />
-          <div className="wrap">
-            <Route exact path="/" component={Top} />
-            <Route path="/search" component={Search} />
+            <Route exact path="/" component={Search} />
             <Route path="/user/:id" component={MemberInfo} />
             <Route path="/game" component={Game} />
-          </div>
         </React.Fragment>
       </Router>
     );
