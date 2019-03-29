@@ -144,6 +144,10 @@ class Game extends Component {
   }
 
   startGame() {
+    if (this.state.departmentID === null) {
+      alert('部署を選んでください');
+      return;
+    }
     this.setState({
       isPlaying: true
     });
