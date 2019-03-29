@@ -86,13 +86,13 @@ class Search extends Component {
   }
   render() {
     return (
-      <div class="wrapper">
-          <Input
-            departmentList={this.state.departmentList}
-            onChangeDepartment={e => this.onChangeDepartment(e)}
-            onChangeText={e => this.onInputText(e)}
-            onClick={e => this.onClickSearh(e)}
-          />
+      <React.Fragment>
+        <Input
+          departmentList={this.state.departmentList}
+          onChangeDepartment={e => this.onChangeDepartment(e)}
+          onChangeText={e => this.onInputText(e)}
+          onClick={e => this.onClickSearh(e)}
+        />
         <div>
           <Memberlist
             userList={this.state.userList}
@@ -102,7 +102,7 @@ class Search extends Component {
             onClickPager={e => this.onClickPager(e)}
           />
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

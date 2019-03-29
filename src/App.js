@@ -55,9 +55,11 @@ class App extends Component {
       <Router basename={process.env.PUBLIC_URL}>
         <React.Fragment>
           <Header />
+          <div className="wrapper">
             <Route exact path="/" component={Search} />
             <Route path="/user/:id" component={MemberInfo} />
             <Route path="/game" component={Game} />
+          </div>
         </React.Fragment>
       </Router>
     );
