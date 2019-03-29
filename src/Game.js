@@ -262,48 +262,59 @@ class Game extends Component {
 
   render() {
     return (
-      <div>
-        <h1>神経衰弱</h1>
-        <div>
-          <h2>部署を選ぶ</h2>
-          <div>
-            <ul className="radiolist">
-              {this.state.departmentList.map(row => {
-                return (
-                  <li key={row.department_id}>
-                    <input
-                      type="radio"
-                      name="department"
-                      value={row.department_id}
-                      checked={
-                        this.state.departmentID === row.department_id
-                      }
-                      onChange={e => this.onChangeDepartment(e)}
-                    />
-                    {row.department_name}
-                  </li>
-                );
-              })}
-            </ul>
-            <div className="l-btn-start">
-              {this.state.isPlaying === true ? <button
-                onClick={() => this.resetGame()}
-                type="button"
-                className="btn-start"
-              >
-                ゲームをやめる
-              </button>
-                : <button
-                  onClick={e => this.startGame()}
-                  type="button"
-                  className="btn-start"
-                >
-                  遊ぶ！
-              </button>}
+      <div className="game">
+        <h2 className="game-title">神経衰弱</h2>
+        <div className="l-action">
+          <div className="action">
+            <div className="action-title">部署をんで「遊ぶ！」を押してね</div>
+            <div>
+              <ul className="radiolist">
+                {this.state.departmentList.map(row => {
+                  return (
+                    <li key={row.department_id}>
+                      <div className="radio">
+                        <label>
+                          <input
+                            type="radio"
+                            name="department"
+                            value={row.department_id}
+                            checked={
+                              this.state.departmentID ===
+                              row.department_id
+                            }
+                            onChange={e =>
+                              this.onChangeDepartment(e)
+                            }
+                          />
+                          {row.department_name}
+                        </label>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+              <div className="l-btn-start">
+                {this.state.isPlaying === true ? (
+                  <button
+                    onClick={() => this.resetGame()}
+                    type="button"
+                    className="btn-start"
+                  >
+                    ゲームをやめる
+                  </button>
+                ) : (
+                  <button
+                    onClick={e => this.startGame()}
+                    type="button"
+                    className="btn-start"
+                  >
+                    遊ぶ！
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div>
+          <div />
           <GameBoard
             cardList={this.state.cardList}
             handleCardClick={(e, flgFirst) =>
@@ -314,7 +325,7 @@ class Game extends Component {
         </div>
         <div className="l-pager">
           <div className="pager">
-            <Link to="/">トップへ戻る</Link>
+            <Link to="/">検索へ戻る</Link>
           </div>
         </div>
         {this.state.isCleared && (

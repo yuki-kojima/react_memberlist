@@ -296,12 +296,27 @@ button {
   .pager .pager__page {
     margin: 0 15px; }
 
+.l-memberinfo {
+  margin: 60px auto 0 auto;
+  width: 1050px; }
+
+.l-gotop {
+  margin-top: 40px; }
+
 .memberinfo {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  width: 750px;
+  margin: 0 auto;
+  padding: 30px 10px;
+  background-color: #fff;
+  border: solid 1px #ccc;
+  border-radius: 15px; }
   .memberinfo .memberinfo__img {
     flex-shrink: 0;
-    width: 300px; }
+    width: 250px; }
+    .memberinfo .memberinfo__img > img {
+      border-radius: 5px; }
   .memberinfo .memberinfo__info {
     margin-left: 2rem; }
     .memberinfo .memberinfo__info .memberinfo__info__body {
@@ -314,6 +329,7 @@ button {
     font-size: 2rem; }
   .memberinfo-title .memberinfo-title__sub {
     display: block;
+    margin-top: 5px;
     font-size: 1.4rem;
     font-weight: normal; }
 
@@ -321,7 +337,15 @@ button {
   border-collapse: separate;
   border-spacing: 1rem; }
   .infotable .infotable__header {
+    padding: 5px 0;
+    font-weight: bold;
     text-align: right; }
+  .infotable .infotable__body {
+    padding: 5px 0 5px 10px; }
+
+.gotop {
+  text-align: center;
+  font-weight: bold; }
 
 .l-game-text {
   display: flex;
@@ -335,17 +359,41 @@ button {
 .l-btn-start {
   margin-top: 3rem; }
 
+.l-action {
+  margin-top: 20px; }
+
+.game {
+  width: 1050px;
+  margin: 0 auto; }
+  .game .game-title {
+    margin-top: 20px; }
+
+.action {
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border: solid 1px #ccc;
+  border-radius: 15px; }
+  .action .action-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold; }
+
 #card {
-  margin: 20px;
-  width: 100%;
-  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px auto 0 auto;
+  width: 900px;
+  height: 350px;
   list-style: none; }
 
 #card li {
   margin: 10px;
   width: 150px;
   height: 150px;
-  float: left;
   position: relative;
   cursor: pointer; }
 
@@ -357,11 +405,12 @@ button {
 
 .radiolist {
   margin: 2rem auto 0 auto;
-  width: 600px;
+  width: 500px;
   display: flex;
   flex-wrap: wrap; }
   .radiolist > li {
-    width: 33%; }
+    width: 33%;
+    margin-top: 5px; }
 
 .game-text {
   text-align: center; }
