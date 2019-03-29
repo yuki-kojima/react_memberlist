@@ -18,7 +18,6 @@ class Memberlist extends Component {
   componentWillReceiveProps(props) {
     this.setMessage(props);
     this.setPageState(props);
-    console.log(props);
   }
   setPageState(props) {
     if (props.userList === null || props.userList.length === 0) {
@@ -74,7 +73,6 @@ class Memberlist extends Component {
         message: "検索してください"
       });
     } else if (userList.length === 0) {
-      console.log("0");
       this.setState({
         message: "該当するメンバーがいませんでした"
       });
