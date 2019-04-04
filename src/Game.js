@@ -270,7 +270,7 @@ class Game extends Component {
         <h2 className="game-title">神経衰弱</h2>
         <div className="l-action">
           <div className="action">
-            <div className="action-title">部署をんで「遊ぶ！」を押してね</div>
+            <div className="action-title">部署を選んで「遊ぶ！」を押してね</div>
             <div>
               <ul className="radiolist">
                 {this.state.departmentList.map(row => {
