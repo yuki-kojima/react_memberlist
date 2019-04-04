@@ -49,8 +49,15 @@ class Search extends Component {
   }
   onChangeDepartment(e) {
     const departmentID = e.target.value;
+    const params = new QueryGenerator();
+
+    params.department_id = departmentID;
+    params.query = this.state.selectedQuery;
+    this.loadUserInfo(params.queryString);
     this.setState({
-      selectedDepartmentID: departmentID
+      selectedDepartmentID: departmentID,
+      requestedDepartmentID: departmentID,
+      requestedQuery: params.query
     });
   }
   onInputText(e) {
