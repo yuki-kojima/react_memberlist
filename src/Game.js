@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import $ from "jquery";
-import { Link } from "react-router-dom";
 import GameBoard from "./GameBoard";
 import './App.css';
 import axiosCreat from "./utility/axiosCreate";
@@ -328,11 +327,6 @@ class Game extends Component {
             }
             flgFirst={this.props.flgFirst}
           />
-        </div>
-        <div className="l-pager">
-          <div className="pager">
-            <Link to="/">検索へ戻る</Link>
-          </div>
         </div>
         {this.state.isCleared && (
           <GameModal
