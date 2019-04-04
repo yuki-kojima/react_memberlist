@@ -28,6 +28,7 @@ class Game extends Component {
   }
   componentDidMount() {
     this.httpClient = axiosCreat();
+    this.props.setShownPage();
 
     this.loadDepartments();
   }

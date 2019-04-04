@@ -22,6 +22,7 @@ class Search extends Component {
   }
   componentDidMount() {
     this.httpClient = axiosCreate();
+    this.props.setShownPage();
     this.loadDepartments();
   }
   commonResponseHandling(res) {

@@ -14,7 +14,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogin: false
+      isLogin: false,
+      shownPage: 'search',
     };
   }
   componentDidMount() {
@@ -50,15 +51,32 @@ class App extends Component {
     return handleResponse(res);
   }
 
+  setShownPage(page) {
+    this.setState({
+      shownPage: page
+    });
+  }
+
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <React.Fragment>
-          <Header />
+          <Header shownPage={this.state.shownPage} />
           <div className="wrapper">
-            <Route exact path="/" component={Search} />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Search setShownPage={() => this.setShownPage("search")} />
+              )}
+            />
             <Route path="/user/:id" component={MemberInfo} />
-            <Route path="/game" component={Game} />
+            <Route
+              path="/game"
+              render={() => (
+                <Game setShownPage={() => this.setShownPage("game")} />
+              )}
+            />
           </div>
         </React.Fragment>
       </Router>

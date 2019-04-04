@@ -173,6 +173,8 @@ button {
   justify-content: space-between; }
   .nav > li:not(:first-child) {
     margin-left: 20px; }
+  .nav > li a.is-active {
+    font-weight: bold; }
 
 .inputwrap {
   background-color: #b2a9a9; }
