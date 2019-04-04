@@ -270,8 +270,10 @@ class Game extends Component {
         <h2 className="game-title">神経衰弱</h2>
         <div className="l-action">
           <div className="action">
-            <div className="action-title">部署を選んで「遊ぶ！」を押してね</div>
-            <div>
+            { !this.state.isPlaying && <div>
+              <div className="action-title">
+                部署を選んで「遊ぶ！」を押してね
+              </div>
               <ul className="radiolist">
                 {this.state.departmentList.map(row => {
                   return (
@@ -283,12 +285,9 @@ class Game extends Component {
                             name="department"
                             value={row.department_id}
                             checked={
-                              this.state.departmentID ===
-                              row.department_id
+                              this.state.departmentID === row.department_id
                             }
-                            onChange={e =>
-                              this.onChangeDepartment(e)
-                            }
+                            onChange={e => this.onChangeDepartment(e)}
                           />
                           {row.department_name}
                         </label>
@@ -297,26 +296,28 @@ class Game extends Component {
                   );
                 })}
               </ul>
-              <div className="l-btn-start">
-                {this.state.isPlaying === true ? (
-                  <button
-                    onClick={() => this.resetGame()}
-                    type="button"
-                    className="btn-start"
-                  >
-                    ゲームをやめる
-                  </button>
-                ) : (
-                  <button
-                    onClick={e => this.startGame()}
-                    type="button"
-                    className="btn-start"
-                  >
-                    遊ぶ！
-                  </button>
-                )}
-              </div>
             </div>
+            }
+            {this.state.isPlaying === true ? (
+              <button
+                onClick={() => this.resetGame()}
+                type="button"
+                className="btn-start"
+              >
+                ゲームをやめる
+              </button>
+            ) : (
+              <div className="l-btn-start">
+
+              <button
+                onClick={e => this.startGame()}
+                type="button"
+                className="btn-start"
+              >
+                遊ぶ！
+              </button>
+              </div>
+            )}
           </div>
           <div />
           <GameBoard
