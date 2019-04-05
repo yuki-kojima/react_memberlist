@@ -45,7 +45,7 @@ class Game extends Component {
       });
   }
 
-  getTotalPageNum(departmentID) {
+  getTotalPageNum() {
     const params = new QueryGenerator();
     params.department_id = this.state.departmentID;
 
@@ -61,7 +61,7 @@ class Game extends Component {
     const departmentID = e.target.value;
 
     this.setState(
-      {departmentID: departmentID},() => {this.getTotalPageNum(this.state.departmentID);}
+      {departmentID: departmentID},() => {this.getTotalPageNum();}
     );
   }
 
@@ -264,7 +264,7 @@ class Game extends Component {
       this.unlockAllCards();
     }, speed * 2 + 1000);
   }
-  
+
   // カードクリック時の挙動
   handleCardClick(e) {
     const $target = $(e.currentTarget);
