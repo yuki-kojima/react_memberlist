@@ -5,6 +5,6 @@ const handleResponse = (res) => {
         return Promise.reject("API Error:" + res.data.data.message);
     }
     return Promise.resolve(res.data.data);
-}
+};
 
 export default handleResponse;

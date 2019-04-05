@@ -25,15 +25,17 @@ class Game extends Component {
       isPlaying: false
     };
   }
+
   componentDidMount() {
     this.httpClient = axiosCreat();
     this.props.setShownPage();
-
     this.loadDepartments();
   }
+
   commonResponseHandling(res) {
     return handleResponse(res);
   }
+
   loadDepartments() {
     return this.httpClient
       .get("/who/departments")
@@ -42,9 +44,11 @@ class Game extends Component {
         this.setState({ departmentList: result });
       });
   }
+
   getTotalPageNum(departmentID) {
     const params = new QueryGenerator();
     params.department_id = this.state.departmentID;
+
     return this.httpClient
       .get(`/who/search/${params.queryString}`)
       .then(this.commonResponseHandling)
@@ -52,32 +56,33 @@ class Game extends Component {
         this.setState({ totalPage: result.summary.total_pages });
       });
   }
+
   onChangeDepartment(e) {
     const departmentID = e.target.value;
+
     this.setState(
-      {
-        departmentID: departmentID
-      },
-      () => {
-        this.getTotalPageNum(this.state.departmentID);
-      }
+      {departmentID: departmentID},() => {this.getTotalPageNum(this.state.departmentID);}
     );
   }
+
   loadAllUserInfo(requestList) {
     let userList = [];
+
     Promise.all(requestList).then(result => {
       for(let i of result) {
         userList = userList.concat(i);
       }
       this.setState({
         userList: userList
-      }, e => this.setCardList(this.state.userList));
+      }, () => this.setCardList(this.state.userList));
     })
   }
+
   returnRequestList() {
     const params = new QueryGenerator();
     const requests = [];
     let request;
+    
     for (var i = 1; i <= this.state.totalPage; i++) {
       params.department_id = this.state.departmentID;
       params.page = i;
@@ -88,6 +93,7 @@ class Game extends Component {
         });
       requests.push(request);
     }
+
     return requests;
   }
 
@@ -99,23 +105,28 @@ class Game extends Component {
     var randomUserList = [];
     var l = a.length;
     var n = num < l ? num : l;
+
     while (n-- > 0) {
       var i = (Math.random() * l) | 0;
       randomUserList[n] = t[i] || a[i];
       --l;
       t[i] = t[l] || a[l];
     }
+
     return randomUserList;
   }
 
   GenerateCardList(randomUserList) {
     const cardList = [];
+
     for (let i = 0; i < randomUserList.length; i++) {
       const item = randomUserList[i];
       cardList.push(item, item);
     }
+
     return cardList;
   }
+
   ShuffleCardList(cardList) {
     cardList.sort(function() {
       return Math.random() - Math.random();
@@ -128,6 +139,7 @@ class Game extends Component {
     }
     const randomUSerList = this.PickRandomUserList(userList, 5);
     const cardList = this.GenerateCardList(randomUSerList);
+
     this.ShuffleCardList(cardList);
     this.setState({
       cardList: cardList
@@ -148,9 +160,11 @@ class Game extends Component {
       alert('部署を選んでください');
       return;
     }
+
     this.setState({
       isPlaying: true
     });
+
     const requests = this.returnRequestList();
     this.initGameStatus();
     this.loadAllUserInfo(requests);
@@ -171,7 +185,7 @@ class Game extends Component {
       userList: null,
       cardList: [],
       isPlaying: false
-    })
+    });
   }
 
   // クリック時の関数
@@ -182,6 +196,7 @@ class Game extends Component {
       func($target, speed);
     });
   }
+
   //面を開く
   showUpside($target, speed) {
     const $targetImg = $target.find("img");
@@ -190,6 +205,7 @@ class Game extends Component {
     $targetImg.stop().animate({ width: "150px", height: "150" }, speed);
     $target.stop().animate({ left: "0" }, speed);
   }
+
   //裏を開く
   showBackside($target, speed) {
     const $targetImg = $target.find("img");
@@ -197,14 +213,17 @@ class Game extends Component {
     $targetImg.stop().animate({ width: "150px", height: "150" }, speed);
     $target.stop().animate({ left: "0" }, speed);
   }
+
   //クリックできないようにカードをロック
   lockCard($target) {
     $target.addClass("is-locked");
   }
+
   //全てのカードをロック
   lockAllCard() {
     $("#card li").addClass("is-locked");
   }
+
   //全てのカードをアンロック
   unlockAllCards() {
     $("#card li").removeClass("is-locked");
@@ -245,6 +264,7 @@ class Game extends Component {
       this.unlockAllCards();
     }, speed * 2 + 1000);
   }
+  
   // カードクリック時の挙動
   handleCardClick(e) {
     const $target = $(e.currentTarget);

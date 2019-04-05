@@ -15,28 +15,34 @@ class Memberlist extends Component {
       message: "検索してください"
     };
   }
+
   componentWillReceiveProps(props) {
     this.setMessage(props);
     this.setPageState(props);
   }
+
   setPageState(props) {
     if (props.userList === null || props.userList.length === 0) {
       return;
     }
+
     const currentPage = props.dataSummary.current_page;
     const totalPages = props.dataSummary.total_pages;
     let nextPage;
     let prevPage;
+
     if (!(currentPage === totalPages)) {
       nextPage = currentPage + 1;
     } else {
       nextPage = null;
     }
+
     if (!(currentPage === 1)) {
       prevPage = currentPage - 1;
     } else {
       prevPage = null;
     }
+    
     this.setState(
       {
         currentPage: currentPage,
@@ -44,30 +50,32 @@ class Memberlist extends Component {
         nextPage: nextPage,
         prevPage: prevPage
       },
-      () => {
-        this.setPageFlg();
-      }
+      () => {this.setPageFlg();}
     );
   }
   setPageFlg() {
     let flgPrev = true;
     let flgNext = true;
+
     if (this.state.currentPage === 1) {
       flgPrev = false;
     }
+
     if (
       this.state.currentPage === this.state.totalPages ||
       this.state.totalPages === 0
     ) {
       flgNext = false;
     }
+
     this.setState({
       flgPrev: flgPrev,
       flgNext: flgNext
     });
   }
   setMessage(props) {
-    var userList = props.userList;
+    const userList = props.userList;
+    
     if (userList === null) {
       this.setState({
         message: "検索してください"

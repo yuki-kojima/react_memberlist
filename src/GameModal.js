@@ -15,7 +15,6 @@ const GameModal = (props) => {
         </div>
     </div>
     );
-
 };
 
 export default GameModal;

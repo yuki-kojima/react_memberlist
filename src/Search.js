@@ -20,6 +20,7 @@ class Search extends Component {
       dataSummary: null
     };
   }
+
   componentDidMount() {
     this.httpClient = axiosCreate();
     this.props.setShownPage();
@@ -28,6 +29,7 @@ class Search extends Component {
   commonResponseHandling(res) {
     return handleResponse(res);
   }
+
   loadDepartments() {
     return this.httpClient
       .get("/who/departments")
@@ -36,6 +38,7 @@ class Search extends Component {
         this.setState({ departmentList: result });
       });
   }
+
   loadUserInfo(query) {
     return this.httpClient
       .get(`/who/search/${query}`)
@@ -47,6 +50,7 @@ class Search extends Component {
         });
       });
   }
+
   onChangeDepartment(e) {
     const departmentID = e.target.value;
     const params = new QueryGenerator();
@@ -60,8 +64,10 @@ class Search extends Component {
       requestedQuery: params.query
     });
   }
+
   onInputText(e) {
     const query = e.target.value;
+
     this.setState({
       selectedQuery: query
     });
@@ -73,25 +79,31 @@ class Search extends Component {
       alert('Sorry...\n条件無しの検索はできません。\n部署またはキーワードを指定して検索してください。');
         return;
     }
+
     params.department_id = this.state.selectedDepartmentID;
     params.query = this.state.selectedQuery;
+
     this.loadUserInfo(params.queryString);
     this.setState({
       requestedDepartmentID: this.state.selectedDepartmentID,
       requestedQuery: this.state.selectedQuery
     })
   }
+
   onClickPager(e) {
     const target = e.target;
     const departmentID = target.getAttribute("data-id");
     const query = target.getAttribute("data-query");
     const page = target.getAttribute("data-page");
     const params = new QueryGenerator();
+
     params.department_id = departmentID;
     params.query = query;
     params.page = page;
+
     this.loadUserInfo(params.queryString);
   }
+  
   render() {
     return (
       <React.Fragment>

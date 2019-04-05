@@ -12,10 +12,12 @@ class MemberInfo extends Component {
           userInfo: null
         }
     }
+
   componentDidMount() {
     this.httpClient = axiosCreate();
     this.loadUserDetail();
   }
+
   commonResponseHandling(res) {
     return handleResponse(res);
   }
@@ -32,6 +34,7 @@ class MemberInfo extends Component {
         });
       });
   }
+  
   render() {
     return (
       <div className="l-memberinfo">
