@@ -8,6 +8,7 @@ import Header from "./Header";
 import Search from "./Search";
 import MemberInfo from "./MemberInfo";
 import Game from "./Game";
+import Edit from './Edit';
 
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
         alert("APIがエラーを返しました\n\n" + err);
       });
   }
+  
   loadAuth() {
     return this.httpClient
       .get("/auth", {
@@ -71,6 +73,12 @@ class App extends Component {
               )}
             />
             <Route path="/user/:id" component={MemberInfo} />
+            <Route
+              path="/edit"
+              render={() => (
+                <Edit setShownPage={() => this.setShownPage("edit")} />
+              )}
+            />
             <Route
               path="/game"
               render={() => (
