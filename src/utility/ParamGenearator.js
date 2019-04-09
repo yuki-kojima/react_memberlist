@@ -19,7 +19,6 @@ class ParamGenerator {
 
     get params() {
         const params = new URLSearchParams();
-        console.log(params);
 
         if (this._nickname !== null && this._nickname !== "") {
             params.append('nickname', this._nickname);
@@ -30,7 +29,6 @@ class ParamGenerator {
         if (this._enterDate !== null && this._enterDate !== "") {
             params.append('enter_date', this._enterDate);
         }
-        console.log(params);
         return params;
     }
 }
