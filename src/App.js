@@ -10,6 +10,7 @@ import MemberInfo from "./MemberInfo";
 import Game from "./Game";
 import Edit from './Edit';
 import db from './firebase/firestore';
+import TagSearch from './TagSearch';
 
 class App extends Component {
   constructor(props) {
@@ -103,6 +104,12 @@ class App extends Component {
               path="/game"
               render={() => (
                 <Game setShownPage={() => this.setShownPage("game")} />
+              )}
+            />
+            <Route
+              path="/tagSearch"
+              render={() => (
+                <TagSearch setShownPage={() => this.setShownPage("tagSearch")} />
               )}
             />
           </div>

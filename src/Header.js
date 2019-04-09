@@ -17,7 +17,9 @@ const Header = (props) => {
                       <Link
                         to="/"
                         className={
-                          props.shownPage === "search" ? "is-active" : undefined
+                          props.shownPage === "search"
+                            ? "is-active"
+                            : undefined
                         }
                       >
                         社員名簿
@@ -27,9 +29,25 @@ const Header = (props) => {
                   <li>
                     <div>
                       <Link
+                        to="/tagSearch"
+                        className={
+                          props.shownPage === "tagSearch"
+                            ? "is-active"
+                            : undefined
+                        }
+                      >
+                        タグで検索
+                      </Link>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <Link
                         to="/Game"
                         className={
-                          props.shownPage === "game" ? "is-active" : undefined
+                          props.shownPage === "game"
+                            ? "is-active"
+                            : undefined
                         }
                       >
                         神経衰弱
@@ -41,7 +59,9 @@ const Header = (props) => {
                       <Link
                         to="/edit"
                         className={
-                          props.shownPage === "edit" ? "is-active" : undefined
+                          props.shownPage === "edit"
+                            ? "is-active"
+                            : undefined
                         }
                       >
                         プロフィール更新
