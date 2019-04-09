@@ -4,19 +4,25 @@ import axiosCreate from "./utility/axiosCreate";
 import handleResponse from "./utility/handleResponse";
 import ParamGenerator from './utility/ParamGenearator';
 import InputText from './InputText'
+import firebase from './firebase/firebase';
+import db from './firebase/firestore';
 
 class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: '',
       userInfo: {},
       isLogin: false,
       nickname: '',
       description: '',
-      enterDate: ''
+      enterDate: '',
+      tagList: [],
+      userTagList: []
     };
   }
   componentDidMount() {
+    this.checkLoginStatus();
     this.httpClient = axiosCreate();
     this.props.setShownPage();
     this.loadUserInfo();
@@ -24,6 +30,58 @@ class Edit extends Component {
   commonResponseHandling(res) {
     return handleResponse(res);
   }
+
+  login() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    firebase.auth().signInWithRedirect(provider);
+  }
+
+  checkLoginStatus() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        this.login();
+      } else {
+        this.setState({
+          userId: user.uid
+        });
+        this.getTagStatus(user);
+      }
+    });
+  }
+
+  getTagStatus(user) {
+    const userRef = db.collection('members').doc(user.uid);
+    userRef.get().then(doc => {
+      if(doc.exists) {
+        this.setState({
+          userTagList: doc.data().tags
+        }, () => this.getTags());
+      } else {
+        console.log("No such document!");
+      }
+    });
+  }
+
+  getTags() {
+    const tagRefs = db.collection('tags');
+    const tagList = [];
+    tagRefs.get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        if (this.state.userTagList.indexOf(doc.id) >= 0) {
+          tagList.push({ id: doc.id, name: doc.data().name, checked: true });
+        } else {
+          tagList.push({ id: doc.id, name: doc.data().name, checked: false });
+        }
+      })
+    })
+    .then(() => {
+      this.setState({
+        tagList: tagList
+      });
+    });
+  }
+
   loadUserInfo() {
     this.httpClient
       .get("/profile/get")
@@ -71,6 +129,47 @@ class Edit extends Component {
     params.enterDate = this.state.enterDate;
     this.updateUserInfo(params.params);
   }
+
+  onClickTagInput(e) {
+    const tagId = e.target.name;
+    const tagList = this.state.tagList;
+    const updatedTagList = tagList.map(item => {
+      if (item.id === tagId) {
+      item.checked = !item.checked;
+      }
+      return item;
+    });
+    this.setState({
+        tagList: updatedTagList
+    });
+  }
+
+  getCheckedTagIds() {
+    const tagList = this.state.tagList;
+    const checkedTagList = tagList.filter(item => {
+      return item.checked === true;
+    });
+    const checkedTagIds = checkedTagList.map(item => {
+      return item.id;
+    });
+    return checkedTagIds;
+  }
+
+  registerTag(userId, tagIds) {
+    db.collection('members').doc(userId).update({
+      tags: tagIds
+    }).then(() => {
+      alert('タグを更新しました！');
+    }).catch(error => {
+      console.log('Error updating document: ', error);
+    });
+  }
+
+  setTag() {
+    const tagIds = this.getCheckedTagIds(); 
+    this.registerTag(this.state.userId, tagIds);
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -137,6 +236,21 @@ class Edit extends Component {
                   >
                     更新する
                   </button>
+              </div>
+            </div>
+            <div className="l-tagedit">
+              <div className="tagedit">
+                <h3 className="tagedit__subtitle">タグ</h3>
+                <div className="tagedit__list-wrap">
+                  <ul className="tagedit__list">
+                    {this.state.tagList.map(item => {
+                      return (
+                        <li key={item.id}><input type="checkbox" name={item.id} value={item.id} checked={item.checked} onChange={e => this.onClickTagInput(e)} className="tagedit__item" /><label htmlFor={item.id}>#{item.name}</label></li>
+                      );
+                    })}
+                  </ul>
+                  <button className="tagedit__btn" onClick={() => this.setTag()}>タグを更新する</button>
+                </div>
               </div>
             </div>
           </div>
