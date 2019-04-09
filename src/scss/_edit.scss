@@ -25,3 +25,36 @@
         }
     }
 }
+
+.l-tagedit {
+    margin: 60px auto 0 auto;
+    width: 1050px;
+}
+
+.tagedit {
+    &__subtitle {
+        text-align: center;
+    }
+    &__list-wrap {
+        width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: solid 1px #ccc;
+        border-radius: 15px;
+        text-align: center;
+    }
+    &__list {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: -10px;
+        > li {
+            width: 20%;
+            margin-top: 10px;
+        }
+    }
+    &__btn {
+        margin-top: 20px;
+    }
+}

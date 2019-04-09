@@ -471,3 +471,31 @@ button {
     margin-left: 2rem; }
     .edit__content .edit__info-content .memberinfo__info__body {
       margin-top: 3rem; }
+
+.l-tagedit {
+  margin: 60px auto 0 auto;
+  width: 1050px; }
+
+.tagedit__subtitle {
+  text-align: center; }
+
+.tagedit__list-wrap {
+  width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: solid 1px #ccc;
+  border-radius: 15px;
+  text-align: center; }
+
+.tagedit__list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: -10px; }
+  .tagedit__list > li {
+    width: 20%;
+    margin-top: 10px; }
+
+.tagedit__btn {
+  margin-top: 20px; }
