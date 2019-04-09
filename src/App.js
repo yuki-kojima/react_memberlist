@@ -9,7 +9,7 @@ import Search from "./Search";
 import MemberInfo from "./MemberInfo";
 import Game from "./Game";
 import Edit from './Edit';
-
+import firebase from './firebase/firebase'
 
 class App extends Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class App extends Component {
     };
   }
   componentDidMount() {
+    this.checkLoginStatus();
     this.httpClient = axiosCreate();
     this.loadAuth()
       .then(() => {
@@ -51,6 +52,20 @@ class App extends Component {
 
   commonResponseHandling(res) {
     return handleResponse(res);
+  }
+
+  login() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    firebase.auth().signInWithRedirect(provider);
+  }
+
+  checkLoginStatus() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        this.login();
+      }
+    });
   }
 
   setShownPage(page) {
