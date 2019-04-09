@@ -22,7 +22,6 @@ class Edit extends Component {
     };
   }
   componentDidMount() {
-    this.checkLoginStatus();
     this.httpClient = axiosCreate();
     this.props.setShownPage();
     this.loadUserInfo();
@@ -31,32 +30,17 @@ class Edit extends Component {
     return handleResponse(res);
   }
 
-  login() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    firebase.auth().signInWithRedirect(provider);
-  }
-
-  checkLoginStatus() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        this.login();
-      } else {
-        this.setState({
-          userId: user.uid
-        });
-        this.getTagStatus(user);
-      }
-    });
-  }
-
-  getTagStatus(user) {
-    const userRef = db.collection('members').doc(user.uid);
+  getTagStatus(userId) {
+    const userRef = db.collection('members').doc(userId);
     userRef.get().then(doc => {
       if(doc.exists) {
-        this.setState({
-          userTagList: doc.data().tags
-        }, () => this.getTags());
+        if(doc.data().tags !== undefined) {
+          this.setState({
+            userTagList: doc.data().tags
+          }, () => this.getTags());
+        } else {
+          this.getTags();
+        }
       } else {
         console.log("No such document!");
       }
@@ -89,7 +73,7 @@ class Edit extends Component {
       .then(result => {
         this.setState({
           userInfo: result
-        });
+        }, () => this.getTagStatus(this.state.userInfo.user_id));
       });
   }
   updateUserInfo(params) {
@@ -167,7 +151,7 @@ class Edit extends Component {
 
   setTag() {
     const tagIds = this.getCheckedTagIds(); 
-    this.registerTag(this.state.userId, tagIds);
+    this.registerTag(this.state.userInfo.user_id, tagIds);
   }
 
   render() {

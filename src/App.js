@@ -9,7 +9,6 @@ import Search from "./Search";
 import MemberInfo from "./MemberInfo";
 import Game from "./Game";
 import Edit from './Edit';
-import firebase from './firebase/firebase';
 import db from './firebase/firestore';
 
 class App extends Component {
@@ -21,8 +20,8 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    this.checkLoginStatus();
     this.httpClient = axiosCreate();
+    this.registerUserData();
     this.loadAuth()
       .then(() => {
         if (!this.state.isLogin) {
@@ -55,34 +54,22 @@ class App extends Component {
     return handleResponse(res);
   }
 
-  login() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    firebase.auth().signInWithRedirect(provider);
-  }
-
-  checkLoginStatus() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        this.login();
-      } else {
-        this.registerUser(user);
-      }
-    });
-  }
-
-  registerUser(user) {
-    const userDoc = db.collection('members').doc(user.uid);
-    userDoc.get().then(doc => {
-      if(doc.exists) {
-        return false;
-      } else {
-        userDoc.set({
-          name: user.displayName,
-          userID: user.uid,
-          email: user.email
-        });
-      }
+  registerUserData() {
+  this.httpClient
+    .get("/profile/get")
+    .then(this.commonResponseHandling)
+    .then(result => {
+      db.collection('members').doc(result.user_id).get().then(doc => {
+        if(doc.exists) {
+          return false;
+        } else {
+          db.collection('members').doc(result.user_id).set({
+            userID: result.user_id,
+            name: result.user_name,
+            photo: result.main_photo_url
+          });
+        }
+      })
     });
   }
 
