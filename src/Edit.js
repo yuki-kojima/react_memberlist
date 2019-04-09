@@ -61,6 +61,10 @@ class Edit extends Component {
     });
   }
   onSubmit() {
+    if (this.state.nickname === '' && this.state.description === '' && this.state.enterDate === '') {
+      alert('変更する項目を入力してください');
+      return;
+    }
     const params = new ParamGenerator();
     params.nickname = this.state.nickname;
     params.description = this.state.description;
