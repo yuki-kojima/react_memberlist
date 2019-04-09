@@ -448,3 +448,26 @@ button {
       display: flex;
       justify-content: space-between;
       margin-top: 30px; }
+
+.l-edit {
+  margin: 60px auto 0 auto;
+  width: 1050px; }
+
+.edit__content {
+  display: flex;
+  justify-content: center;
+  width: 750px;
+  margin: 0 auto;
+  padding: 30px 10px;
+  background-color: #fff;
+  border: solid 1px #ccc;
+  border-radius: 15px; }
+  .edit__content .edit__img {
+    flex-shrink: 0;
+    width: 250px; }
+    .edit__content .edit__img > img {
+      border-radius: 5px; }
+  .edit__content .edit__info-content {
+    margin-left: 2rem; }
+    .edit__content .edit__info-content .memberinfo__info__body {
+      margin-top: 3rem; }

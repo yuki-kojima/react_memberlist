@@ -1,0 +1,27 @@
+.l-edit {
+    margin: 60px auto 0 auto;
+    width: 1050px;
+}
+.edit__content{
+    display: flex;
+    justify-content: center;
+    width: 750px;
+    margin:  0 auto;
+    padding: 30px 10px;
+    background-color: #fff;
+    border: solid 1px #ccc;
+    border-radius: 15px;
+    .edit__img {
+        flex-shrink: 0;
+        width: 250px;
+        > img {
+            border-radius: 5px;
+        }
+    }
+    .edit__info-content {
+        margin-left: 2rem;
+        .memberinfo__info__body {
+            margin-top: 3rem;
+        }
+    }
+}
