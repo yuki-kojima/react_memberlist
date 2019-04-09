@@ -6,9 +6,18 @@ const Header = (props) => {
         return (
           <header id="header">
             <div className="header__inner">
-              <h1 className="pagetitle">
-                <img src={logo} width="45" heigth="45" alt="NIJIBOX" />
-                <span className="pagetitle__text">NIJIBOX社員名簿</span>
+              <h1>
+                <Link to="/" className="pagetitle">
+                  <img
+                    src={logo}
+                    width="45"
+                    heigth="45"
+                    alt="NIJIBOX"
+                  />
+                  <span className="pagetitle__text">
+                    NIJIBOX社員名簿
+                  </span>
+                </Link>
               </h1>
               <nav className="header__nav">
                 <ul className="nav">
