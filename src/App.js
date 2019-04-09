@@ -9,7 +9,8 @@ import Search from "./Search";
 import MemberInfo from "./MemberInfo";
 import Game from "./Game";
 import Edit from './Edit';
-import firebase from './firebase/firebase'
+import firebase from './firebase/firebase';
+import db from './firebase/firestore';
 
 class App extends Component {
   constructor(props) {
@@ -64,6 +65,23 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (!user) {
         this.login();
+      } else {
+        this.registerUser(user);
+      }
+    });
+  }
+
+  registerUser(user) {
+    const userDoc = db.collection('members').doc(user.uid);
+    userDoc.get().then(doc => {
+      if(doc.exists) {
+        return false;
+      } else {
+        userDoc.set({
+          name: user.displayName,
+          userID: user.uid,
+          email: user.email
+        });
       }
     });
   }
