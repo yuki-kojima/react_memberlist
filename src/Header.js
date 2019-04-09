@@ -36,6 +36,18 @@ const Header = (props) => {
                       </Link>
                     </div>
                   </li>
+                  <li>
+                    <div>
+                      <Link
+                        to="/edit"
+                        className={
+                          props.shownPage === "edit" ? "is-active" : undefined
+                        }
+                      >
+                        プロフィール更新
+                      </Link>
+                    </div>
+                  </li>
                 </ul>
               </nav>
             </div>
