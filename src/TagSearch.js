@@ -12,8 +12,7 @@ class TagSearch extends Component {
       isLogin: false,
       tagList: [],
       userList: null,
-      requestedTagID: "",
-      selectedTagID: ""
+      requestedTagID: '01'
     };
   }
 
@@ -21,6 +20,7 @@ class TagSearch extends Component {
     this.httpClient = axiosCreate();
     this.getTags();
     this.props.setShownPage();
+    this.loadUserList(this.state.requestedTagID);
   }
   commonResponseHandling(res) {
     return handleResponse(res);
@@ -59,7 +59,8 @@ class TagSearch extends Component {
             userId: doc.data().userID
           });
           this.setState({
-            userList: userList
+            userList: userList,
+            requestedTagID: tagId
           });
         });
       });
